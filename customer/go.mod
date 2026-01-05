@@ -1,4 +1,4 @@
-module customer-service
+module customer
 
 go 1.22
 
