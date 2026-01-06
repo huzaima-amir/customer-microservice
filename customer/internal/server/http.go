@@ -1,7 +1,7 @@
 package server
 
 import (
-	// v1 "customer/api/customer/v1"
+	v1 "customer/api/helloworld/v1"
 	"customer/internal/conf"
 	"customer/internal/service"
 
@@ -11,7 +11,7 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Server, Customer *service.CustomerService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -27,6 +27,6 @@ func NewHTTPServer(c *conf.Server, Customer *service.CustomerService, logger log
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	// v1.RegisterCustomerHTTPServer(srv, Customer)
+	v1.RegisterGreeterHTTPServer(srv, greeter)
 	return srv
 }
