@@ -1,0 +1,221 @@
+syntax = "proto3";
+
+package api.customer.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "customer/api/customer/v1;v1";
+
+
+service Customer {
+    rpc CreateCustomer(CreateCustomerReq) returns (CreateCustomerReply) {
+    }
+
+    rpc CreateEmail(CreateEmailReq) returns (CreateEmailReply) {
+    }
+
+    rpc CreatePhoneNumber(CreatePhoneNumberReq) returns (CreatePhoneNumberReply){
+    }
+
+    rpc UpdateCustomer(UpdateCustomerReq) returns (UpdateCustomerReply) {
+    }
+
+    rpc DeleteCustomer(DeleteCustomerReq) returns (DeleteCustomerReply) {
+    }
+
+    rpc ListCustomer(ListCustomerReq) returns (ListCustomerReply) {
+    }
+
+    rpc CreateAddress(CreateAddressReq) returns (CreateAddressReply) {
+    }
+    
+    rpc ListAddress(ListAddressReq) returns (ListAddressReply) {
+    }
+
+    rpc ListPhoneNumber(ListPhoneNumberReq) returns (ListPhoneNumberReply){
+    }
+
+    rpc ListEmail(ListEmailReq) returns (ListEmailReply) {
+    }
+
+    rpc GetCustomer(GetCustomerReq) returns (GetCustomerReply){
+    }
+
+    rpc GetCustomerByEmail(GetCustomerByEmailReq) returns (GetCustomerByEmailReply) {
+    }
+
+    rpc GetCustomerByPhoneNumber(GetCustomerByPhoneNumberReq) returns (GetCustomerByPhoneNumberReply){
+    }
+
+    rpc DeletePhoneNumber(DeletePhoneNumberReq) returns (DeletePhoneNumberReply) {
+    }
+
+    rpc DeleteAddress(DeleteAddressReq) returns (DeleteAddressReply) {
+    }
+
+    rpc DeleteEmail(DeleteEmailReq) returns (DeleteEmailReply) {
+    } 
+}
+
+message GetCustomerReq {
+    int64 id = 1;
+}
+
+message GetCustomerReply {
+    int64 id = 1;
+    string name = 2;
+    repeated string phone_numbers = 3;
+    repeated string emails = 4;
+    repeated string addresses = 5;
+    string date_of_birth = 6;
+}
+
+message GetCustomerByEmailReq {
+    string email = 1;
+}
+
+message GetCustomerByEmailReply {
+    int64 id = 1;
+    string name = 2;
+    repeated string phone_numbers = 3;
+    repeated string emails = 4;
+    repeated string addresses = 5;
+    string date_of_birth = 6;
+}
+
+message GetCustomerByPhoneNumberReq {
+    string phone = 1; 
+}
+
+message GetCustomerByPhoneNumberReply {
+    int64 id = 1;
+    string name = 2;
+    repeated string phone_numbers = 3;
+    repeated string emails = 4;
+    repeated string addresses = 5;
+    string date_of_birth = 6;
+}
+
+message CreateCustomerReq {
+    string name = 1;
+    string date_of_birth = 2;
+}
+
+message CreateCustomerReply {
+    int64 id = 1;
+    string name = 2;
+    string date_of_birth = 3;
+}
+
+message UpdateCustomerReq {
+    int64 id = 1;
+    string name = 2; 
+    string date_of_birth = 3;
+}
+
+message UpdateCustomerReply {
+    int64 id = 1;
+    string name = 2;
+    repeated string phone_numbers = 3;
+    repeated string emails = 4;
+    repeated string addresses = 5;
+    string date_of_birth = 6;
+}
+
+message DeleteCustomerReq {
+    int64 id = 1;
+}
+
+message DeleteCustomerReply {
+    bool success = 1;
+}
+
+message CreatePhoneNumberReq {
+    int64 customer_id = 1;
+    string phone = 2;
+}
+
+message CreatePhoneNumberReply {
+    int64 id = 1;
+    int64 customer_id = 2;
+    string phone = 3;
+}
+
+message ListPhoneNumberReq {
+    int64 customer_id = 1;
+}
+
+message ListPhoneNumberReply {
+    repeated string phone_numbers = 1;
+}
+
+message DeletePhoneNumberReq {
+    int64 customer_id = 1;
+    string phone = 2;
+}
+
+message DeletePhoneNumberReply {
+    bool success = 1;
+}
+
+message CreateEmailReq {
+    int64 customer_id = 1;
+    string email = 2;
+}
+
+message CreateEmailReply {
+    int64 id = 1;
+    int64 customer_id = 2;
+    string email = 3;
+}
+
+message ListEmailReq {
+    int64 customer_id = 1;
+}
+
+message ListEmailReply {
+    repeated string emails = 1;
+}
+
+message DeleteEmailReq {
+    int64 customer_id = 1;
+    string email = 2;
+}
+
+message DeleteEmailReply {
+    bool success = 1;
+}
+
+message CreateAddressReq {
+    int64 customer_id = 1;
+    string address = 2;
+}
+
+message CreateAddressReply {
+    int64 id = 1;
+    int64 customer_id = 2;
+    string address = 3;
+}
+
+message ListAddressReq {
+    int64 customer_id = 1;
+}
+
+message ListAddressReply {
+    repeated string addresses = 1;
+}
+
+message DeleteAddressReq {
+    int64 customer_id = 1;
+    string address = 2;
+}
+
+message DeleteAddressReply {
+    bool success = 1;
+}
+
+message ListCustomerReq {}
+
+message ListCustomerReply {
+    repeated GetCustomerReply customers = 1;
+}
