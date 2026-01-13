@@ -4,14 +4,16 @@ import (
 	"context"
 
 	pb "customer/api/customer/v1"
+	"customer/internal/biz"
 )
 
 type CustomerService struct {
 	pb.UnimplementedCustomerServer
+	uc *biz.CustomerUsecase
 }
 
-func NewCustomerService() *CustomerService {
-	return &CustomerService{}
+func NewCustomerService(uc *biz.CustomerUsecase) *CustomerService {
+	return &CustomerService{uc: uc}
 }
 
 func (s *CustomerService) CreateCustomer(ctx context.Context, req *pb.CreateCustomerReq) (*pb.CreateCustomerReply, error) {
