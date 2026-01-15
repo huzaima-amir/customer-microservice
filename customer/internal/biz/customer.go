@@ -42,19 +42,19 @@ type CustomerRepo interface {
 	ListCustomers(ctx context.Context) ([]*Customer, error)
 
 	// email
-	CreateEmail(ctx context.Context, e *Email) error
+	AddEmail(ctx context.Context, e *Email) error
 	DeleteEmail(ctx context.Context, customerID int64, email string) error
 	ListEmails(ctx context.Context, customerID int64) ([]string, error)
 	GetCustomerByEmail(ctx context.Context, email string) (*Customer, error)
 
 	// phone
-	CreatePhone(ctx context.Context, p *PhoneNumber) error
+	AddPhone(ctx context.Context, p *PhoneNumber) error
 	DeletePhone(ctx context.Context, customerID int64, phone string) error
 	ListPhones(ctx context.Context, customerID int64) ([]string, error)
 	GetCustomerByPhone(ctx context.Context, phone string) (*Customer, error)
 
 	// address
-	CreateAddress(ctx context.Context, a *Address) error
+	AddAddress(ctx context.Context, a *Address) error
 	DeleteAddress(ctx context.Context, customerID int64, address string) error
 	ListAddresses(ctx context.Context, customerID int64) ([]string, error)
 }

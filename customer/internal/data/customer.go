@@ -102,7 +102,7 @@ func (r *customerRepo) ListCustomers(ctx context.Context) ([]*biz.Customer, erro
 
 // email 
 
-func (r *customerRepo) CreateEmail(ctx context.Context, e *biz.Email) error {
+func (r *customerRepo) AddEmail(ctx context.Context, e *biz.Email) error {
 	return r.db.WithContext(ctx).Create(&EmailModel{
 		CustomerID: e.CustomerID,
 		Email:      e.Email,
@@ -137,7 +137,7 @@ func (r *customerRepo) GetCustomerByEmail(ctx context.Context, email string) (*b
 }
 
 // phone 
-func (r *customerRepo) CreatePhone(ctx context.Context, p *biz.PhoneNumber) error {
+func (r *customerRepo) AddPhone(ctx context.Context, p *biz.PhoneNumber) error {
 	return r.db.WithContext(ctx).Create(&PhoneModel{
 		CustomerID: p.CustomerID,
 		Phone:      p.Phone,
@@ -172,7 +172,7 @@ func (r *customerRepo) GetCustomerByPhone(ctx context.Context, phone string) (*b
 }
 
 // address 
-func (r *customerRepo) CreateAddress(ctx context.Context, a *biz.Address) error {
+func (r *customerRepo) AddAddress(ctx context.Context, a *biz.Address) error {
 	return r.db.WithContext(ctx).Create(&AddressModel{
 		CustomerID: a.CustomerID,
 		Address:    a.Address,
