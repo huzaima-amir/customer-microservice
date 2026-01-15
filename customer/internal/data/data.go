@@ -1,5 +1,6 @@
 package data
-
+// TODO : CONNECT TO DB AND AUTOMIGRATE
+// THEN ADD TRANSACTIONS
 import (
 	"customer/internal/conf"
 

@@ -750,7 +750,7 @@ func (x *DeleteCustomerReply) GetSuccess() bool {
 	return false
 }
 
-type CreatePhoneNumberReq struct {
+type AddPhoneNumberReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CustomerId    int64                  `protobuf:"varint,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
 	Phone         string                 `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
@@ -758,20 +758,20 @@ type CreatePhoneNumberReq struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreatePhoneNumberReq) Reset() {
-	*x = CreatePhoneNumberReq{}
+func (x *AddPhoneNumberReq) Reset() {
+	*x = AddPhoneNumberReq{}
 	mi := &file_api_customer_v1_customer_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreatePhoneNumberReq) String() string {
+func (x *AddPhoneNumberReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreatePhoneNumberReq) ProtoMessage() {}
+func (*AddPhoneNumberReq) ProtoMessage() {}
 
-func (x *CreatePhoneNumberReq) ProtoReflect() protoreflect.Message {
+func (x *AddPhoneNumberReq) ProtoReflect() protoreflect.Message {
 	mi := &file_api_customer_v1_customer_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -783,26 +783,26 @@ func (x *CreatePhoneNumberReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreatePhoneNumberReq.ProtoReflect.Descriptor instead.
-func (*CreatePhoneNumberReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use AddPhoneNumberReq.ProtoReflect.Descriptor instead.
+func (*AddPhoneNumberReq) Descriptor() ([]byte, []int) {
 	return file_api_customer_v1_customer_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *CreatePhoneNumberReq) GetCustomerId() int64 {
+func (x *AddPhoneNumberReq) GetCustomerId() int64 {
 	if x != nil {
 		return x.CustomerId
 	}
 	return 0
 }
 
-func (x *CreatePhoneNumberReq) GetPhone() string {
+func (x *AddPhoneNumberReq) GetPhone() string {
 	if x != nil {
 		return x.Phone
 	}
 	return ""
 }
 
-type CreatePhoneNumberReply struct {
+type AddPhoneNumberReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	CustomerId    int64                  `protobuf:"varint,2,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
@@ -811,20 +811,20 @@ type CreatePhoneNumberReply struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreatePhoneNumberReply) Reset() {
-	*x = CreatePhoneNumberReply{}
+func (x *AddPhoneNumberReply) Reset() {
+	*x = AddPhoneNumberReply{}
 	mi := &file_api_customer_v1_customer_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreatePhoneNumberReply) String() string {
+func (x *AddPhoneNumberReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreatePhoneNumberReply) ProtoMessage() {}
+func (*AddPhoneNumberReply) ProtoMessage() {}
 
-func (x *CreatePhoneNumberReply) ProtoReflect() protoreflect.Message {
+func (x *AddPhoneNumberReply) ProtoReflect() protoreflect.Message {
 	mi := &file_api_customer_v1_customer_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -836,26 +836,26 @@ func (x *CreatePhoneNumberReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreatePhoneNumberReply.ProtoReflect.Descriptor instead.
-func (*CreatePhoneNumberReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use AddPhoneNumberReply.ProtoReflect.Descriptor instead.
+func (*AddPhoneNumberReply) Descriptor() ([]byte, []int) {
 	return file_api_customer_v1_customer_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *CreatePhoneNumberReply) GetId() int64 {
+func (x *AddPhoneNumberReply) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *CreatePhoneNumberReply) GetCustomerId() int64 {
+func (x *AddPhoneNumberReply) GetCustomerId() int64 {
 	if x != nil {
 		return x.CustomerId
 	}
 	return 0
 }
 
-func (x *CreatePhoneNumberReply) GetPhone() string {
+func (x *AddPhoneNumberReply) GetPhone() string {
 	if x != nil {
 		return x.Phone
 	}
@@ -1046,7 +1046,7 @@ func (x *DeletePhoneNumberReply) GetSuccess() bool {
 	return false
 }
 
-type CreateEmailReq struct {
+type AddEmailReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CustomerId    int64                  `protobuf:"varint,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
@@ -1054,20 +1054,20 @@ type CreateEmailReq struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateEmailReq) Reset() {
-	*x = CreateEmailReq{}
+func (x *AddEmailReq) Reset() {
+	*x = AddEmailReq{}
 	mi := &file_api_customer_v1_customer_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateEmailReq) String() string {
+func (x *AddEmailReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateEmailReq) ProtoMessage() {}
+func (*AddEmailReq) ProtoMessage() {}
 
-func (x *CreateEmailReq) ProtoReflect() protoreflect.Message {
+func (x *AddEmailReq) ProtoReflect() protoreflect.Message {
 	mi := &file_api_customer_v1_customer_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1079,26 +1079,26 @@ func (x *CreateEmailReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateEmailReq.ProtoReflect.Descriptor instead.
-func (*CreateEmailReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use AddEmailReq.ProtoReflect.Descriptor instead.
+func (*AddEmailReq) Descriptor() ([]byte, []int) {
 	return file_api_customer_v1_customer_proto_rawDescGZIP(), []int{18}
 }
 
-func (x *CreateEmailReq) GetCustomerId() int64 {
+func (x *AddEmailReq) GetCustomerId() int64 {
 	if x != nil {
 		return x.CustomerId
 	}
 	return 0
 }
 
-func (x *CreateEmailReq) GetEmail() string {
+func (x *AddEmailReq) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-type CreateEmailReply struct {
+type AddEmailReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	CustomerId    int64                  `protobuf:"varint,2,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
@@ -1107,20 +1107,20 @@ type CreateEmailReply struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateEmailReply) Reset() {
-	*x = CreateEmailReply{}
+func (x *AddEmailReply) Reset() {
+	*x = AddEmailReply{}
 	mi := &file_api_customer_v1_customer_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateEmailReply) String() string {
+func (x *AddEmailReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateEmailReply) ProtoMessage() {}
+func (*AddEmailReply) ProtoMessage() {}
 
-func (x *CreateEmailReply) ProtoReflect() protoreflect.Message {
+func (x *AddEmailReply) ProtoReflect() protoreflect.Message {
 	mi := &file_api_customer_v1_customer_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1132,26 +1132,26 @@ func (x *CreateEmailReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateEmailReply.ProtoReflect.Descriptor instead.
-func (*CreateEmailReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use AddEmailReply.ProtoReflect.Descriptor instead.
+func (*AddEmailReply) Descriptor() ([]byte, []int) {
 	return file_api_customer_v1_customer_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *CreateEmailReply) GetId() int64 {
+func (x *AddEmailReply) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *CreateEmailReply) GetCustomerId() int64 {
+func (x *AddEmailReply) GetCustomerId() int64 {
 	if x != nil {
 		return x.CustomerId
 	}
 	return 0
 }
 
-func (x *CreateEmailReply) GetEmail() string {
+func (x *AddEmailReply) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
@@ -1342,7 +1342,7 @@ func (x *DeleteEmailReply) GetSuccess() bool {
 	return false
 }
 
-type CreateAddressReq struct {
+type AddAddressReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CustomerId    int64                  `protobuf:"varint,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
 	Address       string                 `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
@@ -1350,20 +1350,20 @@ type CreateAddressReq struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateAddressReq) Reset() {
-	*x = CreateAddressReq{}
+func (x *AddAddressReq) Reset() {
+	*x = AddAddressReq{}
 	mi := &file_api_customer_v1_customer_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateAddressReq) String() string {
+func (x *AddAddressReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateAddressReq) ProtoMessage() {}
+func (*AddAddressReq) ProtoMessage() {}
 
-func (x *CreateAddressReq) ProtoReflect() protoreflect.Message {
+func (x *AddAddressReq) ProtoReflect() protoreflect.Message {
 	mi := &file_api_customer_v1_customer_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1375,26 +1375,26 @@ func (x *CreateAddressReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateAddressReq.ProtoReflect.Descriptor instead.
-func (*CreateAddressReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use AddAddressReq.ProtoReflect.Descriptor instead.
+func (*AddAddressReq) Descriptor() ([]byte, []int) {
 	return file_api_customer_v1_customer_proto_rawDescGZIP(), []int{24}
 }
 
-func (x *CreateAddressReq) GetCustomerId() int64 {
+func (x *AddAddressReq) GetCustomerId() int64 {
 	if x != nil {
 		return x.CustomerId
 	}
 	return 0
 }
 
-func (x *CreateAddressReq) GetAddress() string {
+func (x *AddAddressReq) GetAddress() string {
 	if x != nil {
 		return x.Address
 	}
 	return ""
 }
 
-type CreateAddressReply struct {
+type AddAddressReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	CustomerId    int64                  `protobuf:"varint,2,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
@@ -1403,20 +1403,20 @@ type CreateAddressReply struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateAddressReply) Reset() {
-	*x = CreateAddressReply{}
+func (x *AddAddressReply) Reset() {
+	*x = AddAddressReply{}
 	mi := &file_api_customer_v1_customer_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateAddressReply) String() string {
+func (x *AddAddressReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateAddressReply) ProtoMessage() {}
+func (*AddAddressReply) ProtoMessage() {}
 
-func (x *CreateAddressReply) ProtoReflect() protoreflect.Message {
+func (x *AddAddressReply) ProtoReflect() protoreflect.Message {
 	mi := &file_api_customer_v1_customer_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1428,26 +1428,26 @@ func (x *CreateAddressReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateAddressReply.ProtoReflect.Descriptor instead.
-func (*CreateAddressReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use AddAddressReply.ProtoReflect.Descriptor instead.
+func (*AddAddressReply) Descriptor() ([]byte, []int) {
 	return file_api_customer_v1_customer_proto_rawDescGZIP(), []int{25}
 }
 
-func (x *CreateAddressReply) GetId() int64 {
+func (x *AddAddressReply) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *CreateAddressReply) GetCustomerId() int64 {
+func (x *AddAddressReply) GetCustomerId() int64 {
 	if x != nil {
 		return x.CustomerId
 	}
 	return 0
 }
 
-func (x *CreateAddressReply) GetAddress() string {
+func (x *AddAddressReply) GetAddress() string {
 	if x != nil {
 		return x.Address
 	}
@@ -1771,12 +1771,12 @@ const file_api_customer_v1_customer_proto_rawDesc = "" +
 	"\x11DeleteCustomerReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"/\n" +
 	"\x13DeleteCustomerReply\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"M\n" +
-	"\x14CreatePhoneNumberReq\x12\x1f\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"J\n" +
+	"\x11AddPhoneNumberReq\x12\x1f\n" +
 	"\vcustomer_id\x18\x01 \x01(\x03R\n" +
 	"customerId\x12\x14\n" +
-	"\x05phone\x18\x02 \x01(\tR\x05phone\"_\n" +
-	"\x16CreatePhoneNumberReply\x12\x0e\n" +
+	"\x05phone\x18\x02 \x01(\tR\x05phone\"\\\n" +
+	"\x13AddPhoneNumberReply\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
 	"\vcustomer_id\x18\x02 \x01(\x03R\n" +
 	"customerId\x12\x14\n" +
@@ -1791,12 +1791,12 @@ const file_api_customer_v1_customer_proto_rawDesc = "" +
 	"customerId\x12\x14\n" +
 	"\x05phone\x18\x02 \x01(\tR\x05phone\"2\n" +
 	"\x16DeletePhoneNumberReply\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"G\n" +
-	"\x0eCreateEmailReq\x12\x1f\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"D\n" +
+	"\vAddEmailReq\x12\x1f\n" +
 	"\vcustomer_id\x18\x01 \x01(\x03R\n" +
 	"customerId\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\"Y\n" +
-	"\x10CreateEmailReply\x12\x0e\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\"V\n" +
+	"\rAddEmailReply\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
 	"\vcustomer_id\x18\x02 \x01(\x03R\n" +
 	"customerId\x12\x14\n" +
@@ -1811,12 +1811,12 @@ const file_api_customer_v1_customer_proto_rawDesc = "" +
 	"customerId\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\",\n" +
 	"\x10DeleteEmailReply\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"M\n" +
-	"\x10CreateAddressReq\x12\x1f\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"J\n" +
+	"\rAddAddressReq\x12\x1f\n" +
 	"\vcustomer_id\x18\x01 \x01(\x03R\n" +
 	"customerId\x12\x18\n" +
-	"\aaddress\x18\x02 \x01(\tR\aaddress\"_\n" +
-	"\x12CreateAddressReply\x12\x0e\n" +
+	"\aaddress\x18\x02 \x01(\tR\aaddress\"\\\n" +
+	"\x0fAddAddressReply\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
 	"\vcustomer_id\x18\x02 \x01(\x03R\n" +
 	"customerId\x12\x18\n" +
@@ -1834,15 +1834,16 @@ const file_api_customer_v1_customer_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x11\n" +
 	"\x0fListCustomerReq\"T\n" +
 	"\x11ListCustomerReply\x12?\n" +
-	"\tcustomers\x18\x01 \x03(\v2!.api.customer.v1.GetCustomerReplyR\tcustomers2\xea\v\n" +
+	"\tcustomers\x18\x01 \x03(\v2!.api.customer.v1.GetCustomerReplyR\tcustomers2\xcf\v\n" +
 	"\bCustomer\x12\\\n" +
-	"\x0eCreateCustomer\x12\".api.customer.v1.CreateCustomerReq\x1a$.api.customer.v1.CreateCustomerReply\"\x00\x12S\n" +
-	"\vCreateEmail\x12\x1f.api.customer.v1.CreateEmailReq\x1a!.api.customer.v1.CreateEmailReply\"\x00\x12e\n" +
-	"\x11CreatePhoneNumber\x12%.api.customer.v1.CreatePhoneNumberReq\x1a'.api.customer.v1.CreatePhoneNumberReply\"\x00\x12\\\n" +
+	"\x0eCreateCustomer\x12\".api.customer.v1.CreateCustomerReq\x1a$.api.customer.v1.CreateCustomerReply\"\x00\x12J\n" +
+	"\bAddEmail\x12\x1c.api.customer.v1.AddEmailReq\x1a\x1e.api.customer.v1.AddEmailReply\"\x00\x12\\\n" +
+	"\x0eAddPhoneNumber\x12\".api.customer.v1.AddPhoneNumberReq\x1a$.api.customer.v1.AddPhoneNumberReply\"\x00\x12\\\n" +
 	"\x0eUpdateCustomer\x12\".api.customer.v1.UpdateCustomerReq\x1a$.api.customer.v1.UpdateCustomerReply\"\x00\x12\\\n" +
 	"\x0eDeleteCustomer\x12\".api.customer.v1.DeleteCustomerReq\x1a$.api.customer.v1.DeleteCustomerReply\"\x00\x12V\n" +
-	"\fListCustomer\x12 .api.customer.v1.ListCustomerReq\x1a\".api.customer.v1.ListCustomerReply\"\x00\x12Y\n" +
-	"\rCreateAddress\x12!.api.customer.v1.CreateAddressReq\x1a#.api.customer.v1.CreateAddressReply\"\x00\x12S\n" +
+	"\fListCustomer\x12 .api.customer.v1.ListCustomerReq\x1a\".api.customer.v1.ListCustomerReply\"\x00\x12P\n" +
+	"\n" +
+	"AddAddress\x12\x1e.api.customer.v1.AddAddressReq\x1a .api.customer.v1.AddAddressReply\"\x00\x12S\n" +
 	"\vListAddress\x12\x1f.api.customer.v1.ListAddressReq\x1a!.api.customer.v1.ListAddressReply\"\x00\x12_\n" +
 	"\x0fListPhoneNumber\x12#.api.customer.v1.ListPhoneNumberReq\x1a%.api.customer.v1.ListPhoneNumberReply\"\x00\x12M\n" +
 	"\tListEmail\x12\x1d.api.customer.v1.ListEmailReq\x1a\x1f.api.customer.v1.ListEmailReply\"\x00\x12S\n" +
@@ -1879,20 +1880,20 @@ var file_api_customer_v1_customer_proto_goTypes = []any{
 	(*UpdateCustomerReply)(nil),           // 9: api.customer.v1.UpdateCustomerReply
 	(*DeleteCustomerReq)(nil),             // 10: api.customer.v1.DeleteCustomerReq
 	(*DeleteCustomerReply)(nil),           // 11: api.customer.v1.DeleteCustomerReply
-	(*CreatePhoneNumberReq)(nil),          // 12: api.customer.v1.CreatePhoneNumberReq
-	(*CreatePhoneNumberReply)(nil),        // 13: api.customer.v1.CreatePhoneNumberReply
+	(*AddPhoneNumberReq)(nil),             // 12: api.customer.v1.AddPhoneNumberReq
+	(*AddPhoneNumberReply)(nil),           // 13: api.customer.v1.AddPhoneNumberReply
 	(*ListPhoneNumberReq)(nil),            // 14: api.customer.v1.ListPhoneNumberReq
 	(*ListPhoneNumberReply)(nil),          // 15: api.customer.v1.ListPhoneNumberReply
 	(*DeletePhoneNumberReq)(nil),          // 16: api.customer.v1.DeletePhoneNumberReq
 	(*DeletePhoneNumberReply)(nil),        // 17: api.customer.v1.DeletePhoneNumberReply
-	(*CreateEmailReq)(nil),                // 18: api.customer.v1.CreateEmailReq
-	(*CreateEmailReply)(nil),              // 19: api.customer.v1.CreateEmailReply
+	(*AddEmailReq)(nil),                   // 18: api.customer.v1.AddEmailReq
+	(*AddEmailReply)(nil),                 // 19: api.customer.v1.AddEmailReply
 	(*ListEmailReq)(nil),                  // 20: api.customer.v1.ListEmailReq
 	(*ListEmailReply)(nil),                // 21: api.customer.v1.ListEmailReply
 	(*DeleteEmailReq)(nil),                // 22: api.customer.v1.DeleteEmailReq
 	(*DeleteEmailReply)(nil),              // 23: api.customer.v1.DeleteEmailReply
-	(*CreateAddressReq)(nil),              // 24: api.customer.v1.CreateAddressReq
-	(*CreateAddressReply)(nil),            // 25: api.customer.v1.CreateAddressReply
+	(*AddAddressReq)(nil),                 // 24: api.customer.v1.AddAddressReq
+	(*AddAddressReply)(nil),               // 25: api.customer.v1.AddAddressReply
 	(*ListAddressReq)(nil),                // 26: api.customer.v1.ListAddressReq
 	(*ListAddressReply)(nil),              // 27: api.customer.v1.ListAddressReply
 	(*DeleteAddressReq)(nil),              // 28: api.customer.v1.DeleteAddressReq
@@ -1903,12 +1904,12 @@ var file_api_customer_v1_customer_proto_goTypes = []any{
 var file_api_customer_v1_customer_proto_depIdxs = []int32{
 	1,  // 0: api.customer.v1.ListCustomerReply.customers:type_name -> api.customer.v1.GetCustomerReply
 	6,  // 1: api.customer.v1.Customer.CreateCustomer:input_type -> api.customer.v1.CreateCustomerReq
-	18, // 2: api.customer.v1.Customer.CreateEmail:input_type -> api.customer.v1.CreateEmailReq
-	12, // 3: api.customer.v1.Customer.CreatePhoneNumber:input_type -> api.customer.v1.CreatePhoneNumberReq
+	18, // 2: api.customer.v1.Customer.AddEmail:input_type -> api.customer.v1.AddEmailReq
+	12, // 3: api.customer.v1.Customer.AddPhoneNumber:input_type -> api.customer.v1.AddPhoneNumberReq
 	8,  // 4: api.customer.v1.Customer.UpdateCustomer:input_type -> api.customer.v1.UpdateCustomerReq
 	10, // 5: api.customer.v1.Customer.DeleteCustomer:input_type -> api.customer.v1.DeleteCustomerReq
 	30, // 6: api.customer.v1.Customer.ListCustomer:input_type -> api.customer.v1.ListCustomerReq
-	24, // 7: api.customer.v1.Customer.CreateAddress:input_type -> api.customer.v1.CreateAddressReq
+	24, // 7: api.customer.v1.Customer.AddAddress:input_type -> api.customer.v1.AddAddressReq
 	26, // 8: api.customer.v1.Customer.ListAddress:input_type -> api.customer.v1.ListAddressReq
 	14, // 9: api.customer.v1.Customer.ListPhoneNumber:input_type -> api.customer.v1.ListPhoneNumberReq
 	20, // 10: api.customer.v1.Customer.ListEmail:input_type -> api.customer.v1.ListEmailReq
@@ -1919,12 +1920,12 @@ var file_api_customer_v1_customer_proto_depIdxs = []int32{
 	28, // 15: api.customer.v1.Customer.DeleteAddress:input_type -> api.customer.v1.DeleteAddressReq
 	22, // 16: api.customer.v1.Customer.DeleteEmail:input_type -> api.customer.v1.DeleteEmailReq
 	7,  // 17: api.customer.v1.Customer.CreateCustomer:output_type -> api.customer.v1.CreateCustomerReply
-	19, // 18: api.customer.v1.Customer.CreateEmail:output_type -> api.customer.v1.CreateEmailReply
-	13, // 19: api.customer.v1.Customer.CreatePhoneNumber:output_type -> api.customer.v1.CreatePhoneNumberReply
+	19, // 18: api.customer.v1.Customer.AddEmail:output_type -> api.customer.v1.AddEmailReply
+	13, // 19: api.customer.v1.Customer.AddPhoneNumber:output_type -> api.customer.v1.AddPhoneNumberReply
 	9,  // 20: api.customer.v1.Customer.UpdateCustomer:output_type -> api.customer.v1.UpdateCustomerReply
 	11, // 21: api.customer.v1.Customer.DeleteCustomer:output_type -> api.customer.v1.DeleteCustomerReply
 	31, // 22: api.customer.v1.Customer.ListCustomer:output_type -> api.customer.v1.ListCustomerReply
-	25, // 23: api.customer.v1.Customer.CreateAddress:output_type -> api.customer.v1.CreateAddressReply
+	25, // 23: api.customer.v1.Customer.AddAddress:output_type -> api.customer.v1.AddAddressReply
 	27, // 24: api.customer.v1.Customer.ListAddress:output_type -> api.customer.v1.ListAddressReply
 	15, // 25: api.customer.v1.Customer.ListPhoneNumber:output_type -> api.customer.v1.ListPhoneNumberReply
 	21, // 26: api.customer.v1.Customer.ListEmail:output_type -> api.customer.v1.ListEmailReply

@@ -20,12 +20,12 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	Customer_CreateCustomer_FullMethodName           = "/api.customer.v1.Customer/CreateCustomer"
-	Customer_CreateEmail_FullMethodName              = "/api.customer.v1.Customer/CreateEmail"
-	Customer_CreatePhoneNumber_FullMethodName        = "/api.customer.v1.Customer/CreatePhoneNumber"
+	Customer_AddEmail_FullMethodName                 = "/api.customer.v1.Customer/AddEmail"
+	Customer_AddPhoneNumber_FullMethodName           = "/api.customer.v1.Customer/AddPhoneNumber"
 	Customer_UpdateCustomer_FullMethodName           = "/api.customer.v1.Customer/UpdateCustomer"
 	Customer_DeleteCustomer_FullMethodName           = "/api.customer.v1.Customer/DeleteCustomer"
 	Customer_ListCustomer_FullMethodName             = "/api.customer.v1.Customer/ListCustomer"
-	Customer_CreateAddress_FullMethodName            = "/api.customer.v1.Customer/CreateAddress"
+	Customer_AddAddress_FullMethodName               = "/api.customer.v1.Customer/AddAddress"
 	Customer_ListAddress_FullMethodName              = "/api.customer.v1.Customer/ListAddress"
 	Customer_ListPhoneNumber_FullMethodName          = "/api.customer.v1.Customer/ListPhoneNumber"
 	Customer_ListEmail_FullMethodName                = "/api.customer.v1.Customer/ListEmail"
@@ -42,12 +42,12 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CustomerClient interface {
 	CreateCustomer(ctx context.Context, in *CreateCustomerReq, opts ...grpc.CallOption) (*CreateCustomerReply, error)
-	CreateEmail(ctx context.Context, in *CreateEmailReq, opts ...grpc.CallOption) (*CreateEmailReply, error)
-	CreatePhoneNumber(ctx context.Context, in *CreatePhoneNumberReq, opts ...grpc.CallOption) (*CreatePhoneNumberReply, error)
+	AddEmail(ctx context.Context, in *AddEmailReq, opts ...grpc.CallOption) (*AddEmailReply, error)
+	AddPhoneNumber(ctx context.Context, in *AddPhoneNumberReq, opts ...grpc.CallOption) (*AddPhoneNumberReply, error)
 	UpdateCustomer(ctx context.Context, in *UpdateCustomerReq, opts ...grpc.CallOption) (*UpdateCustomerReply, error)
 	DeleteCustomer(ctx context.Context, in *DeleteCustomerReq, opts ...grpc.CallOption) (*DeleteCustomerReply, error)
 	ListCustomer(ctx context.Context, in *ListCustomerReq, opts ...grpc.CallOption) (*ListCustomerReply, error)
-	CreateAddress(ctx context.Context, in *CreateAddressReq, opts ...grpc.CallOption) (*CreateAddressReply, error)
+	AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressReply, error)
 	ListAddress(ctx context.Context, in *ListAddressReq, opts ...grpc.CallOption) (*ListAddressReply, error)
 	ListPhoneNumber(ctx context.Context, in *ListPhoneNumberReq, opts ...grpc.CallOption) (*ListPhoneNumberReply, error)
 	ListEmail(ctx context.Context, in *ListEmailReq, opts ...grpc.CallOption) (*ListEmailReply, error)
@@ -77,20 +77,20 @@ func (c *customerClient) CreateCustomer(ctx context.Context, in *CreateCustomerR
 	return out, nil
 }
 
-func (c *customerClient) CreateEmail(ctx context.Context, in *CreateEmailReq, opts ...grpc.CallOption) (*CreateEmailReply, error) {
+func (c *customerClient) AddEmail(ctx context.Context, in *AddEmailReq, opts ...grpc.CallOption) (*AddEmailReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateEmailReply)
-	err := c.cc.Invoke(ctx, Customer_CreateEmail_FullMethodName, in, out, cOpts...)
+	out := new(AddEmailReply)
+	err := c.cc.Invoke(ctx, Customer_AddEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *customerClient) CreatePhoneNumber(ctx context.Context, in *CreatePhoneNumberReq, opts ...grpc.CallOption) (*CreatePhoneNumberReply, error) {
+func (c *customerClient) AddPhoneNumber(ctx context.Context, in *AddPhoneNumberReq, opts ...grpc.CallOption) (*AddPhoneNumberReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreatePhoneNumberReply)
-	err := c.cc.Invoke(ctx, Customer_CreatePhoneNumber_FullMethodName, in, out, cOpts...)
+	out := new(AddPhoneNumberReply)
+	err := c.cc.Invoke(ctx, Customer_AddPhoneNumber_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -127,10 +127,10 @@ func (c *customerClient) ListCustomer(ctx context.Context, in *ListCustomerReq, 
 	return out, nil
 }
 
-func (c *customerClient) CreateAddress(ctx context.Context, in *CreateAddressReq, opts ...grpc.CallOption) (*CreateAddressReply, error) {
+func (c *customerClient) AddAddress(ctx context.Context, in *AddAddressReq, opts ...grpc.CallOption) (*AddAddressReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateAddressReply)
-	err := c.cc.Invoke(ctx, Customer_CreateAddress_FullMethodName, in, out, cOpts...)
+	out := new(AddAddressReply)
+	err := c.cc.Invoke(ctx, Customer_AddAddress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -232,12 +232,12 @@ func (c *customerClient) DeleteEmail(ctx context.Context, in *DeleteEmailReq, op
 // for forward compatibility.
 type CustomerServer interface {
 	CreateCustomer(context.Context, *CreateCustomerReq) (*CreateCustomerReply, error)
-	CreateEmail(context.Context, *CreateEmailReq) (*CreateEmailReply, error)
-	CreatePhoneNumber(context.Context, *CreatePhoneNumberReq) (*CreatePhoneNumberReply, error)
+	AddEmail(context.Context, *AddEmailReq) (*AddEmailReply, error)
+	AddPhoneNumber(context.Context, *AddPhoneNumberReq) (*AddPhoneNumberReply, error)
 	UpdateCustomer(context.Context, *UpdateCustomerReq) (*UpdateCustomerReply, error)
 	DeleteCustomer(context.Context, *DeleteCustomerReq) (*DeleteCustomerReply, error)
 	ListCustomer(context.Context, *ListCustomerReq) (*ListCustomerReply, error)
-	CreateAddress(context.Context, *CreateAddressReq) (*CreateAddressReply, error)
+	AddAddress(context.Context, *AddAddressReq) (*AddAddressReply, error)
 	ListAddress(context.Context, *ListAddressReq) (*ListAddressReply, error)
 	ListPhoneNumber(context.Context, *ListPhoneNumberReq) (*ListPhoneNumberReply, error)
 	ListEmail(context.Context, *ListEmailReq) (*ListEmailReply, error)
@@ -260,11 +260,11 @@ type UnimplementedCustomerServer struct{}
 func (UnimplementedCustomerServer) CreateCustomer(context.Context, *CreateCustomerReq) (*CreateCustomerReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateCustomer not implemented")
 }
-func (UnimplementedCustomerServer) CreateEmail(context.Context, *CreateEmailReq) (*CreateEmailReply, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateEmail not implemented")
+func (UnimplementedCustomerServer) AddEmail(context.Context, *AddEmailReq) (*AddEmailReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddEmail not implemented")
 }
-func (UnimplementedCustomerServer) CreatePhoneNumber(context.Context, *CreatePhoneNumberReq) (*CreatePhoneNumberReply, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreatePhoneNumber not implemented")
+func (UnimplementedCustomerServer) AddPhoneNumber(context.Context, *AddPhoneNumberReq) (*AddPhoneNumberReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddPhoneNumber not implemented")
 }
 func (UnimplementedCustomerServer) UpdateCustomer(context.Context, *UpdateCustomerReq) (*UpdateCustomerReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateCustomer not implemented")
@@ -275,8 +275,8 @@ func (UnimplementedCustomerServer) DeleteCustomer(context.Context, *DeleteCustom
 func (UnimplementedCustomerServer) ListCustomer(context.Context, *ListCustomerReq) (*ListCustomerReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListCustomer not implemented")
 }
-func (UnimplementedCustomerServer) CreateAddress(context.Context, *CreateAddressReq) (*CreateAddressReply, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateAddress not implemented")
+func (UnimplementedCustomerServer) AddAddress(context.Context, *AddAddressReq) (*AddAddressReply, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddAddress not implemented")
 }
 func (UnimplementedCustomerServer) ListAddress(context.Context, *ListAddressReq) (*ListAddressReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListAddress not implemented")
@@ -344,38 +344,38 @@ func _Customer_CreateCustomer_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Customer_CreateEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateEmailReq)
+func _Customer_AddEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddEmailReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CustomerServer).CreateEmail(ctx, in)
+		return srv.(CustomerServer).AddEmail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Customer_CreateEmail_FullMethodName,
+		FullMethod: Customer_AddEmail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CustomerServer).CreateEmail(ctx, req.(*CreateEmailReq))
+		return srv.(CustomerServer).AddEmail(ctx, req.(*AddEmailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Customer_CreatePhoneNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreatePhoneNumberReq)
+func _Customer_AddPhoneNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPhoneNumberReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CustomerServer).CreatePhoneNumber(ctx, in)
+		return srv.(CustomerServer).AddPhoneNumber(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Customer_CreatePhoneNumber_FullMethodName,
+		FullMethod: Customer_AddPhoneNumber_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CustomerServer).CreatePhoneNumber(ctx, req.(*CreatePhoneNumberReq))
+		return srv.(CustomerServer).AddPhoneNumber(ctx, req.(*AddPhoneNumberReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -434,20 +434,20 @@ func _Customer_ListCustomer_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Customer_CreateAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateAddressReq)
+func _Customer_AddAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAddressReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CustomerServer).CreateAddress(ctx, in)
+		return srv.(CustomerServer).AddAddress(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Customer_CreateAddress_FullMethodName,
+		FullMethod: Customer_AddAddress_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CustomerServer).CreateAddress(ctx, req.(*CreateAddressReq))
+		return srv.(CustomerServer).AddAddress(ctx, req.(*AddAddressReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -626,12 +626,12 @@ var Customer_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Customer_CreateCustomer_Handler,
 		},
 		{
-			MethodName: "CreateEmail",
-			Handler:    _Customer_CreateEmail_Handler,
+			MethodName: "AddEmail",
+			Handler:    _Customer_AddEmail_Handler,
 		},
 		{
-			MethodName: "CreatePhoneNumber",
-			Handler:    _Customer_CreatePhoneNumber_Handler,
+			MethodName: "AddPhoneNumber",
+			Handler:    _Customer_AddPhoneNumber_Handler,
 		},
 		{
 			MethodName: "UpdateCustomer",
@@ -646,8 +646,8 @@ var Customer_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Customer_ListCustomer_Handler,
 		},
 		{
-			MethodName: "CreateAddress",
-			Handler:    _Customer_CreateAddress_Handler,
+			MethodName: "AddAddress",
+			Handler:    _Customer_AddAddress_Handler,
 		},
 		{
 			MethodName: "ListAddress",

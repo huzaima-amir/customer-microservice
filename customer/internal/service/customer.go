@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-
 	pb "customer/api/customer/v1"
 	"customer/internal/biz"
 )
@@ -17,13 +16,22 @@ func NewCustomerService(uc *biz.CustomerUsecase) *CustomerService {
 }
 
 func (s *CustomerService) CreateCustomer(ctx context.Context, req *pb.CreateCustomerReq) (*pb.CreateCustomerReply, error) {
-    return &pb.CreateCustomerReply{}, nil
+	customer := &biz.Customer{
+        Name: req.Name,
+        DateOfBirth: req.DateOfBirth,
+    }
+    
+    if err := s.uc.CreateCustomer(ctx, customer); err != nil {
+        return nil, err
+    }
+
+	return &pb.CreateCustomerReply{Id: customer.ID}, nil
 }
-func (s *CustomerService) CreateEmail(ctx context.Context, req *pb.CreateEmailReq) (*pb.CreateEmailReply, error) {
-    return &pb.CreateEmailReply{}, nil
+func (s *CustomerService) AddEmail(ctx context.Context, req *pb.AddEmailReq) (*pb.AddEmailReply, error) {
+    return &pb.AddEmailReply{}, nil
 }
-func (s *CustomerService) CreatePhoneNumber(ctx context.Context, req *pb.CreatePhoneNumberReq) (*pb.CreatePhoneNumberReply, error) {
-    return &pb.CreatePhoneNumberReply{}, nil
+func (s *CustomerService) AddPhoneNumber(ctx context.Context, req *pb.AddPhoneNumberReq) (*pb.AddPhoneNumberReply, error) {
+    return &pb.AddPhoneNumberReply{}, nil
 }
 func (s *CustomerService) UpdateCustomer(ctx context.Context, req *pb.UpdateCustomerReq) (*pb.UpdateCustomerReply, error) {
     return &pb.UpdateCustomerReply{}, nil
@@ -34,8 +42,8 @@ func (s *CustomerService) DeleteCustomer(ctx context.Context, req *pb.DeleteCust
 func (s *CustomerService) ListCustomer(ctx context.Context, req *pb.ListCustomerReq) (*pb.ListCustomerReply, error) {
     return &pb.ListCustomerReply{}, nil
 }
-func (s *CustomerService) CreateAddress(ctx context.Context, req *pb.CreateAddressReq) (*pb.CreateAddressReply, error) {
-    return &pb.CreateAddressReply{}, nil
+func (s *CustomerService) AddAddress(ctx context.Context, req *pb.AddAddressReq) (*pb.AddAddressReply, error) {
+    return &pb.AddAddressReply{}, nil
 }
 func (s *CustomerService) ListAddress(ctx context.Context, req *pb.ListAddressReq) (*pb.ListAddressReply, error) {
     return &pb.ListAddressReply{}, nil
