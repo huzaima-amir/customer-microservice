@@ -9,26 +9,28 @@ import (
 )
 
 //  GORM models 
-type CustomerModel struct {
+type Customer struct {
 	ID          int64  `gorm:"primaryKey"`
 	Name        string
 	DateOfBirth string
-	
+	Emails      []Email
+	PhoneNumbers []PhoneNumber
+	Addresses      []Address
 }
 
-type EmailModel struct {
+type Email   struct {
 	ID         int64  `gorm:"primaryKey"`
 	CustomerID int64  `gorm:"index"`
 	Email      string `gorm:"uniqueIndex"`
 }
 
-type PhoneModel struct {
+type PhoneNumber struct {
 	ID         int64  `gorm:"primaryKey"`
 	CustomerID int64  `gorm:"index"`
 	PhoneNumber      string `gorm:"uniqueIndex"`
 }
 
-type AddressModel struct {
+type Address  struct {
 	ID         int64  `gorm:"primaryKey"`
 	CustomerID int64  `gorm:"index"`
 	Address    string
@@ -47,7 +49,7 @@ func NewCustomerRepo(data *Data) biz.CustomerRepo {
 
 //  customer 
 func (r *customerRepo) CreateCustomer(ctx context.Context, c *biz.Customer) error {
-	model := CustomerModel{
+	model := Customer{
 		Name:        c.Name,
 		DateOfBirth: c.DateOfBirth,
 	}
@@ -60,7 +62,7 @@ func (r *customerRepo) CreateCustomer(ctx context.Context, c *biz.Customer) erro
 
 func (r *customerRepo) UpdateCustomer(ctx context.Context, c *biz.Customer) error {
 	return r.db.WithContext(ctx).
-		Model(&CustomerModel{}).
+		Model(&Customer{}).
 		Where("id = ?", c.ID).
 		Updates(map[string]interface{}{
 			"name":          c.Name,
@@ -69,11 +71,11 @@ func (r *customerRepo) UpdateCustomer(ctx context.Context, c *biz.Customer) erro
 }
 
 func (r *customerRepo) DeleteCustomer(ctx context.Context, id int64) error {
-	return r.db.WithContext(ctx).Delete(&CustomerModel{}, id).Error
+	return r.db.WithContext(ctx).Delete(&Customer{}, id).Error
 }
 
 func (r *customerRepo) GetCustomer(ctx context.Context, id int64) (*biz.Customer, error) {
-	var m CustomerModel
+	var m Customer
 	if err := r.db.WithContext(ctx).First(&m, id).Error; err != nil {
 		return nil, err
 	}
@@ -85,7 +87,7 @@ func (r *customerRepo) GetCustomer(ctx context.Context, id int64) (*biz.Customer
 }
 
 func (r *customerRepo) ListCustomers(ctx context.Context) ([]*biz.Customer, error) {
-	var models []CustomerModel
+	var models []Customer
 	if err := r.db.WithContext(ctx).Find(&models).Error; err != nil {
 		return nil, err
 	}
@@ -104,7 +106,7 @@ func (r *customerRepo) ListCustomers(ctx context.Context) ([]*biz.Customer, erro
 // email 
 
 func (r *customerRepo) AddEmail(ctx context.Context, e *biz.Email) error {
-	return r.db.WithContext(ctx).Create(&EmailModel{
+	return r.db.WithContext(ctx).Create(&Email{
 		CustomerID: e.CustomerID,
 		Email:      e.Email,
 	}).Error
@@ -113,23 +115,23 @@ func (r *customerRepo) AddEmail(ctx context.Context, e *biz.Email) error {
 func (r *customerRepo) DeleteEmail(ctx context.Context, customerID int64, email string) error {
 	return r.db.WithContext(ctx).
 		Where("customer_id = ? AND email = ?", customerID, email).
-		Delete(&EmailModel{}).Error
+		Delete(&Email{}).Error
 }
 
 func (r *customerRepo) ListEmails(ctx context.Context, customerID int64) ([]string, error) {
 	var emails []string
 	err := r.db.WithContext(ctx).
-		Model(&EmailModel{}).
+		Model(&Email{}).
 		Where("customer_id = ?", customerID).
 		Pluck("email", &emails).Error //to select a single column and get in a slice!!!
 	return emails, err
 }
 
 func (r *customerRepo) GetCustomerByEmail(ctx context.Context, email string) (*biz.Customer, error) {
-	var c CustomerModel
+	var c Customer
 	err := r.db.WithContext(ctx).
-		Joins("JOIN email_models ON email_models.customer_id = customer_models.id").
-		Where("email_models.email = ?", email).
+		Joins("JOIN emails ON emails.customer_id = customers.id").
+		Where("emails.email = ?", email).
 		First(&c).Error
 	if err != nil {
 		return nil, err
@@ -139,7 +141,7 @@ func (r *customerRepo) GetCustomerByEmail(ctx context.Context, email string) (*b
 
 // phone 
 func (r *customerRepo) AddPhone(ctx context.Context, p *biz.PhoneNumber) error {
-	return r.db.WithContext(ctx).Create(&PhoneModel{
+	return r.db.WithContext(ctx).Create(&Phone{
 		CustomerID: p.CustomerID,
 		Phone:      p.PhoneNumber,
 	}).Error
@@ -148,23 +150,23 @@ func (r *customerRepo) AddPhone(ctx context.Context, p *biz.PhoneNumber) error {
 func (r *customerRepo) DeletePhone(ctx context.Context, customerID int64, phone string) error {
 	return r.db.WithContext(ctx).
 		Where("customer_id = ? AND phone = ?", customerID, phone).
-		Delete(&PhoneModel{}).Error
+		Delete(&Phone{}).Error
 }
 
 func (r *customerRepo) ListPhones(ctx context.Context, customerID int64) ([]string, error) {
 	var phones []string
 	err := r.db.WithContext(ctx).
-		Model(&PhoneModel{}).
+		Model(&Phone{}).
 		Where("customer_id = ?", customerID).
 		Pluck("phone", &phones).Error
 	return phones, err
 }
 
 func (r *customerRepo) GetCustomerByPhone(ctx context.Context, phone string) (*biz.Customer, error) {
-	var c CustomerModel
+	var c Customer
 	err := r.db.WithContext(ctx).
-		Joins("JOIN phone_models ON phone_models.customer_id = customer_models.id").
-		Where("phone_models.phone = ?", phone).
+		Joins("JOIN phones ON phones.customer_id = customers.id").
+		Where("phones.phone = ?", phone).
 		First(&c).Error
 	if err != nil {
 		return nil, err
@@ -174,7 +176,7 @@ func (r *customerRepo) GetCustomerByPhone(ctx context.Context, phone string) (*b
 
 // address 
 func (r *customerRepo) AddAddress(ctx context.Context, a *biz.Address) error {
-	return r.db.WithContext(ctx).Create(&AddressModel{
+	return r.db.WithContext(ctx).Create(&Address{
 		CustomerID: a.CustomerID,
 		Address:    a.Address,
 	}).Error
@@ -183,13 +185,13 @@ func (r *customerRepo) AddAddress(ctx context.Context, a *biz.Address) error {
 func (r *customerRepo) DeleteAddress(ctx context.Context, customerID int64, address string) error {
 	return r.db.WithContext(ctx).
 		Where("customer_id = ? AND address = ?", customerID, address).
-		Delete(&AddressModel{}).Error
+		Delete(&Address{}).Error
 }
 
 func (r *customerRepo) ListAddresses(ctx context.Context, customerID int64) ([]string, error) {
 	var addresses []string
 	err := r.db.WithContext(ctx).
-		Model(&AddressModel{}).
+		Model(&Address{}).
 		Where("customer_id = ?", customerID).
 		Pluck("address", &addresses).Error
 	return addresses, err
