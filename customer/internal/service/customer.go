@@ -27,10 +27,15 @@ func (s *CustomerService) CreateCustomer(ctx context.Context, req *pb.CreateCust
 
 	return &pb.CreateCustomerReply{Id: customer.ID}, nil
 }
+
 func (s *CustomerService) AddEmail(ctx context.Context, req *pb.AddEmailReq) (*pb.AddEmailReply, error) {
-    
-    return &pb.AddEmailReply{}, nil
+    if err := s.uc.AddEmail(ctx, req.CustomerId, req.Email); err != nil {
+        return nil, err
+    }
+
+    return &pb.AddEmailReply{Id: req.CustomerId}, nil
 }
+
 func (s *CustomerService) AddPhoneNumber(ctx context.Context, req *pb.AddPhoneNumberReq) (*pb.AddPhoneNumberReply, error) {
     return &pb.AddPhoneNumberReply{}, nil
 }

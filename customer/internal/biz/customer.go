@@ -6,11 +6,13 @@ import (
 )
 
 //  entities
-
 type Customer struct {
 	ID          int64
 	Name        string
 	DateOfBirth string
+	Emails      []Email
+	PhoneNumbers []PhoneNumber
+	Addresses    []Address
 }
 
 type Email struct {
@@ -85,3 +87,24 @@ func (uc *CustomerUsecase) GetCustomer(ctx context.Context, id int64) (*Customer
 func (uc *CustomerUsecase) ListCustomers(ctx context.Context) ([]*Customer, error) {
 	return uc.repo.ListCustomers(ctx)
 }
+
+func (uc *CustomerUsecase) AddEmail(ctx context.Context, id int64, email string) error {
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return err
+    }
+
+    newEmail := Email{
+        CustomerID: id,
+        Email:      email,
+    }
+
+    customer.Emails = append(customer.Emails, newEmail)
+
+    return uc.repo.UpdateCustomer(ctx, customer)
+}
+
+
+// func (uc *CustomerUsecase) DeleteEmail (ctx context.Context, e *Email) error {
+
+// }
