@@ -6,6 +6,8 @@ import (
 )
 
 //  entities
+
+
 type Customer struct {
 	ID          int64
 	Name        string
@@ -42,23 +44,6 @@ type CustomerRepo interface {
 	DeleteCustomer(ctx context.Context, id int64) error
 	GetCustomer(ctx context.Context, id int64) (*Customer, error)
 	ListCustomers(ctx context.Context) ([]*Customer, error)
-
-	// email
-	AddEmail(ctx context.Context, e *Email) error
-	DeleteEmail(ctx context.Context, customerID int64, email string) error
-	ListEmails(ctx context.Context, customerID int64) ([]string, error)
-	GetCustomerByEmail(ctx context.Context, email string) (*Customer, error)
-
-	// phone
-	AddPhone(ctx context.Context, p *PhoneNumber) error
-	DeletePhone(ctx context.Context, customerID int64, phone string) error
-	ListPhones(ctx context.Context, customerID int64) ([]string, error)
-	GetCustomerByPhone(ctx context.Context, phone string) (*Customer, error)
-
-	// address
-	AddAddress(ctx context.Context, a *Address) error
-	DeleteAddress(ctx context.Context, customerID int64, address string) error
-	ListAddresses(ctx context.Context, customerID int64) ([]string, error)
 }
 
 // usecase 
