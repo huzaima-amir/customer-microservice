@@ -26,7 +26,7 @@ type Email struct {
 type PhoneNumber struct {
 	ID         int64
 	CustomerID int64
-	Phone      string
+	PhoneNumber      string
 }
 
 type Address struct {
@@ -44,6 +44,8 @@ type CustomerRepo interface {
 	DeleteCustomer(ctx context.Context, id int64) error
 	GetCustomer(ctx context.Context, id int64) (*Customer, error)
 	ListCustomers(ctx context.Context) ([]*Customer, error)
+	GetCustomerByEmail(ctx context.Context, email string) (*Customer, error)
+	GetCustomerByPhoneNumber(ctx context.Context, phone string) (*Customer, error)
 }
 
 // usecase 
@@ -69,27 +71,127 @@ func (uc *CustomerUsecase) GetCustomer(ctx context.Context, id int64) (*Customer
 	return uc.repo.GetCustomer(ctx, id)
 }
 
+func (uc *CustomerUsecase) GetCustomerByEmail(ctx context.Context, email string) (*Customer, error) {
+	return uc.repo.GetCustomerByEmail(ctx, email)
+}
+
 func (uc *CustomerUsecase) ListCustomers(ctx context.Context) ([]*Customer, error) {
 	return uc.repo.ListCustomers(ctx)
 }
 
-func (uc *CustomerUsecase) AddEmail(ctx context.Context, id int64, email string) error {
-    customer, err := uc.repo.GetCustomer(ctx, id)
-    if err != nil {
-        return err
-    }
+func (uc *CustomerUsecase) AddEmail(ctx context.Context, id int64, e string) error {
+	// TODO add check for existing customer with this email
+	customer, err := uc.repo.GetCustomer(ctx, id)
+	if err != nil {			
+		return err
+	}
 
-    newEmail := Email{
-        CustomerID: id,
-        Email:      email,
-    }
+	newEmail := Email{			
+		CustomerID: id,
+		Email:      e,
+	}
 
-    customer.Emails = append(customer.Emails, newEmail)
+	customer.Emails = append(customer.Emails, newEmail)
 
-    return uc.repo.UpdateCustomer(ctx, customer)
+	return uc.repo.UpdateCustomer(ctx, customer)
+
 }
 
+func (uc *CustomerUsecase) DeleteEmail(ctx context.Context, id int64, e string) error {
+	customer, err := uc.repo.GetCustomer(ctx, id)
+	if err != nil {
+		return err
+	}
 
-// func (uc *CustomerUsecase) DeleteEmail (ctx context.Context, e *Email) error {
+	for i, x := range customer.Emails {
+		if x.Email == e {
+			customer.Emails = append(customer.Emails[:i], customer.Emails[i+1:]...)
+			break
+		}
+	}
+
+	return uc.repo.UpdateCustomer(ctx, customer)
+
+}
+
+func (uc *CustomerUsecase) AddPhoneNumber(ctx context.Context, id int64, p string) error {
+	// TODO add check for existing customer with this phone numer
+	customer, err := uc.repo.GetCustomer(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	newPhoneNumber := PhoneNumber {
+		CustomerID: id,
+		PhoneNumber: p,
+	}
+
+	customer.PhoneNumbers = append(customer.PhoneNumbers, newPhoneNumber)
+
+	return uc.repo.UpdateCustomer(ctx, customer)
+}
+
+func (uc *CustomerUsecase) DeletePhoneNumber(ctx context.Context, id int64, p string) error {
+	customer, err := uc.repo.GetCustomer(ctx, id)
+
+	if err != nil {
+		return err
+	}
+
+	for i, x := range customer.PhoneNumbers {
+		if x.PhoneNumber == p {
+			customer.PhoneNumbers = append(customer.PhoneNumbers[:i], customer.PhoneNumbers[i + 1:]...)
+			break
+		}
+	}
+
+	return uc.repo.UpdateCustomer(ctx, customer)
+}
+
+func (uc *CustomerUsecase) AddAddress(ctx context.Context, id int64, address string) error {
+	customer, err := uc.repo.GetCustomer(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	newAddress := Address {
+		CustomerID: id,
+		Address: address,
+	}
+
+	customer.Addresses = append(customer.Addresses, newAddress)
+
+	return uc.repo.UpdateCustomer(ctx, customer)
+}
+
+func (uc *CustomerUsecase) DeleteAddress(ctx context.Context, id int64, address string) error {
+	customer, err := uc.repo.GetCustomer(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	for i, x := range customer.Addresses {
+		if x.Address == address {
+			customer.Addresses = append(customer.Addresses[:i], customer.Addresses[i + 1:]...)
+			break
+		}
+	}
+
+	return uc.repo.UpdateCustomer(ctx, customer)
+}
+
+// func (uc *CustomerUsecase) ListEmail(ctx context.Context, id int64) ([]*Email, error) {
+// 	return uc.repo.
+// }
+
+// func (uc *CustomerUsecase) ListPhoneNumber(ctx context.Context, id int64) ([]*PhoneNumber, error) {
+	
+// }
+
+
+// func (uc *CustomerUsecase) ListAddress(ctx context.Context, id int64) ([]*Address, error) {
 
 // }
+
+
+// ListAddresses, listPhoneNumbers, Listemails missing TODO

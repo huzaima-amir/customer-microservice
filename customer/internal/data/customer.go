@@ -13,6 +13,7 @@ type CustomerModel struct {
 	ID          int64  `gorm:"primaryKey"`
 	Name        string
 	DateOfBirth string
+	
 }
 
 type EmailModel struct {
@@ -24,7 +25,7 @@ type EmailModel struct {
 type PhoneModel struct {
 	ID         int64  `gorm:"primaryKey"`
 	CustomerID int64  `gorm:"index"`
-	Phone      string `gorm:"uniqueIndex"`
+	PhoneNumber      string `gorm:"uniqueIndex"`
 }
 
 type AddressModel struct {
@@ -140,7 +141,7 @@ func (r *customerRepo) GetCustomerByEmail(ctx context.Context, email string) (*b
 func (r *customerRepo) AddPhone(ctx context.Context, p *biz.PhoneNumber) error {
 	return r.db.WithContext(ctx).Create(&PhoneModel{
 		CustomerID: p.CustomerID,
-		Phone:      p.Phone,
+		Phone:      p.PhoneNumber,
 	}).Error
 }
 
