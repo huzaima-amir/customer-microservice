@@ -85,7 +85,7 @@ func (r *customerRepo) GetCustomer(ctx context.Context, id int64) (*biz.Customer
 	}, nil
 }
 
-func (r *customerRepo) ListCustomers(ctx context.Context) ([]*biz.Customer, error) {
+func (r *customerRepo) ListCustomer(ctx context.Context) ([]*biz.Customer, error) {
 	var models []Customer
 	if err := r.db.WithContext(ctx).Find(&models).Error; err != nil {
 		return nil, err

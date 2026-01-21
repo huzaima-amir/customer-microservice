@@ -43,7 +43,7 @@ type CustomerRepo interface {
 	UpdateCustomer(ctx context.Context, c *Customer) error
 	DeleteCustomer(ctx context.Context, id int64) error
 	GetCustomer(ctx context.Context, id int64) (*Customer, error)
-	ListCustomers(ctx context.Context) ([]*Customer, error)
+	ListCustomer(ctx context.Context) ([]*Customer, error)
 	GetCustomerByEmail(ctx context.Context, email string) (*Customer, error)
 	GetCustomerByPhoneNumber(ctx context.Context, phone string) (*Customer, error)
 }
@@ -67,6 +67,15 @@ func (uc *CustomerUsecase) CreateCustomer(ctx context.Context, c *Customer) erro
 	return uc.repo.CreateCustomer(ctx, c)
 }
 
+func (uc *CustomerUsecase) DeleteCustomer(ctx context.Context, id int64) error { // TODO check if customer exissts before deleting
+    _, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return err
+    }
+
+    return uc.repo.DeleteCustomer(ctx, id)
+}
+
 func (uc *CustomerUsecase) GetCustomer(ctx context.Context, id int64) (*Customer, error) {
 	return uc.repo.GetCustomer(ctx, id)
 }
@@ -79,8 +88,8 @@ func (uc *CustomerUsecase) GetCustomerByPhoneNumber(ctx context.Context, phone s
 	return uc.repo.GetCustomerByPhoneNumber(ctx, phone)
 }
 
-func (uc *CustomerUsecase) ListCustomers(ctx context.Context) ([]*Customer, error) {
-	return uc.repo.ListCustomers(ctx)
+func (uc *CustomerUsecase) ListCustomer(ctx context.Context) ([]*Customer, error) {
+	return uc.repo.ListCustomer(ctx)
 }
 
 func (uc *CustomerUsecase) AddEmail(ctx context.Context, id int64, e string) error {
