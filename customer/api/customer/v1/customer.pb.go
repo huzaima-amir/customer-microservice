@@ -280,7 +280,7 @@ func (x *GetCustomerByEmailReply) GetDateOfBirth() string {
 
 type GetCustomerByPhoneNumberReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Phone         string                 `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,1,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -315,9 +315,9 @@ func (*GetCustomerByPhoneNumberReq) Descriptor() ([]byte, []int) {
 	return file_api_customer_v1_customer_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetCustomerByPhoneNumberReq) GetPhone() string {
+func (x *GetCustomerByPhoneNumberReq) GetPhoneNumber() string {
 	if x != nil {
-		return x.Phone
+		return x.PhoneNumber
 	}
 	return ""
 }
@@ -753,7 +753,7 @@ func (x *DeleteCustomerReply) GetSuccess() bool {
 type AddPhoneNumberReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CustomerId    int64                  `protobuf:"varint,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
-	Phone         string                 `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,2,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -795,9 +795,9 @@ func (x *AddPhoneNumberReq) GetCustomerId() int64 {
 	return 0
 }
 
-func (x *AddPhoneNumberReq) GetPhone() string {
+func (x *AddPhoneNumberReq) GetPhoneNumber() string {
 	if x != nil {
-		return x.Phone
+		return x.PhoneNumber
 	}
 	return ""
 }
@@ -806,7 +806,7 @@ type AddPhoneNumberReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	CustomerId    int64                  `protobuf:"varint,2,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
-	Phone         string                 `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,3,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -855,9 +855,9 @@ func (x *AddPhoneNumberReply) GetCustomerId() int64 {
 	return 0
 }
 
-func (x *AddPhoneNumberReply) GetPhone() string {
+func (x *AddPhoneNumberReply) GetPhoneNumber() string {
 	if x != nil {
-		return x.Phone
+		return x.PhoneNumber
 	}
 	return ""
 }
@@ -953,7 +953,7 @@ func (x *ListPhoneNumberReply) GetPhoneNumbers() []string {
 type DeletePhoneNumberReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CustomerId    int64                  `protobuf:"varint,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
-	Phone         string                 `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,2,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -995,9 +995,9 @@ func (x *DeletePhoneNumberReq) GetCustomerId() int64 {
 	return 0
 }
 
-func (x *DeletePhoneNumberReq) GetPhone() string {
+func (x *DeletePhoneNumberReq) GetPhoneNumber() string {
 	if x != nil {
-		return x.Phone
+		return x.PhoneNumber
 	}
 	return ""
 }
@@ -1740,9 +1740,9 @@ const file_api_customer_v1_customer_proto_rawDesc = "" +
 	"\rphone_numbers\x18\x03 \x03(\tR\fphoneNumbers\x12\x16\n" +
 	"\x06emails\x18\x04 \x03(\tR\x06emails\x12\x1c\n" +
 	"\taddresses\x18\x05 \x03(\tR\taddresses\x12\"\n" +
-	"\rdate_of_birth\x18\x06 \x01(\tR\vdateOfBirth\"3\n" +
-	"\x1bGetCustomerByPhoneNumberReq\x12\x14\n" +
-	"\x05phone\x18\x01 \x01(\tR\x05phone\"\xc2\x01\n" +
+	"\rdate_of_birth\x18\x06 \x01(\tR\vdateOfBirth\"@\n" +
+	"\x1bGetCustomerByPhoneNumberReq\x12!\n" +
+	"\fphone_number\x18\x01 \x01(\tR\vphoneNumber\"\xc2\x01\n" +
 	"\x1dGetCustomerByPhoneNumberReply\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12#\n" +
@@ -1771,25 +1771,25 @@ const file_api_customer_v1_customer_proto_rawDesc = "" +
 	"\x11DeleteCustomerReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"/\n" +
 	"\x13DeleteCustomerReply\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"J\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"W\n" +
 	"\x11AddPhoneNumberReq\x12\x1f\n" +
 	"\vcustomer_id\x18\x01 \x01(\x03R\n" +
-	"customerId\x12\x14\n" +
-	"\x05phone\x18\x02 \x01(\tR\x05phone\"\\\n" +
+	"customerId\x12!\n" +
+	"\fphone_number\x18\x02 \x01(\tR\vphoneNumber\"i\n" +
 	"\x13AddPhoneNumberReply\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1f\n" +
 	"\vcustomer_id\x18\x02 \x01(\x03R\n" +
-	"customerId\x12\x14\n" +
-	"\x05phone\x18\x03 \x01(\tR\x05phone\"5\n" +
+	"customerId\x12!\n" +
+	"\fphone_number\x18\x03 \x01(\tR\vphoneNumber\"5\n" +
 	"\x12ListPhoneNumberReq\x12\x1f\n" +
 	"\vcustomer_id\x18\x01 \x01(\x03R\n" +
 	"customerId\";\n" +
 	"\x14ListPhoneNumberReply\x12#\n" +
-	"\rphone_numbers\x18\x01 \x03(\tR\fphoneNumbers\"M\n" +
+	"\rphone_numbers\x18\x01 \x03(\tR\fphoneNumbers\"Z\n" +
 	"\x14DeletePhoneNumberReq\x12\x1f\n" +
 	"\vcustomer_id\x18\x01 \x01(\x03R\n" +
-	"customerId\x12\x14\n" +
-	"\x05phone\x18\x02 \x01(\tR\x05phone\"2\n" +
+	"customerId\x12!\n" +
+	"\fphone_number\x18\x02 \x01(\tR\vphoneNumber\"2\n" +
 	"\x16DeletePhoneNumberReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"D\n" +
 	"\vAddEmailReq\x12\x1f\n" +

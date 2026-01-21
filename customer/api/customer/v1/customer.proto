@@ -84,7 +84,7 @@ message GetCustomerByEmailReply {
 }
 
 message GetCustomerByPhoneNumberReq {
-    string phone = 1; 
+    string phone_number = 1; 
 }
 
 message GetCustomerByPhoneNumberReply {
@@ -132,13 +132,13 @@ message DeleteCustomerReply {
 
 message AddPhoneNumberReq {
     int64 customer_id = 1;
-    string phone = 2;
+    string phone_number = 2;
 }
 
 message AddPhoneNumberReply {
     int64 id = 1;
     int64 customer_id = 2;
-    string phone = 3;
+    string phone_number = 3;
 }
 
 message ListPhoneNumberReq {
@@ -151,7 +151,7 @@ message ListPhoneNumberReply {
 
 message DeletePhoneNumberReq {
     int64 customer_id = 1;
-    string phone = 2;
+    string phone_number = 2;
 }
 
 message DeletePhoneNumberReply {
