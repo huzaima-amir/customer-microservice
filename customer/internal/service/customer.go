@@ -142,7 +142,7 @@ func (s *CustomerService) AddAddress(ctx context.Context, req *pb.AddAddressReq)
     }
     return &pb.AddAddressReply{}, nil
 }
-func (s *CustomerService) ListAddress(ctx context.Context, req *pb. ListAddressReq) (*pb.ListAddressReply, error) {
+func (s *CustomerService) ListAddress(ctx context.Context, req *pb.ListAddressReq) (*pb.ListAddressReply, error) {
     addresses, err := s.uc.ListAddress(ctx, req.CustomerId)
     if err != nil {
         return nil, err
