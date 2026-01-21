@@ -2,9 +2,7 @@ package data
 
 import (
 	"context"
-
 	"customer/internal/biz"
-
 	"gorm.io/gorm"
 )
 
@@ -17,6 +15,7 @@ type Customer struct {
 	PhoneNumbers []PhoneNumber
 	Addresses      []Address
 }
+
 
 type Email   struct {
 	ID         int64  `gorm:"primaryKey"`
@@ -140,35 +139,36 @@ func (r *customerRepo) GetCustomerByEmail(ctx context.Context, email string) (*b
 }
 
 // phone 
-func (r *customerRepo) AddPhone(ctx context.Context, p *biz.PhoneNumber) error {
-	return r.db.WithContext(ctx).Create(&Phone{
+func (r *customerRepo) AddPhoneNumber(ctx context.Context, p *biz.PhoneNumber) error {
+	return r.db.WithContext(ctx).Create(&PhoneNumber{
 		CustomerID: p.CustomerID,
-		Phone:      p.PhoneNumber,
+		PhoneNumber:      p.PhoneNumber,
 	}).Error
 }
 
-func (r *customerRepo) DeletePhone(ctx context.Context, customerID int64, phone string) error {
+func (r *customerRepo) DeletePhoneNumber(ctx context.Context, customerID int64, phone string) error {
 	return r.db.WithContext(ctx).
-		Where("customer_id = ? AND phone = ?", customerID, phone).
-		Delete(&Phone{}).Error
+		Where("customer_id = ? AND phone_number = ?", customerID, phone).
+		Delete(&PhoneNumber{}).Error
 }
 
-func (r *customerRepo) ListPhones(ctx context.Context, customerID int64) ([]string, error) {
+func (r *customerRepo) ListPhoneNumbers(ctx context.Context, customerID int64) ([]string, error) {
 	var phones []string
 	err := r.db.WithContext(ctx).
-		Model(&Phone{}).
+		Model(&PhoneNumber{}).
 		Where("customer_id = ?", customerID).
-		Pluck("phone", &phones).Error
+		Pluck("phone_number", &phones).Error
 	return phones, err
 }
 
-func (r *customerRepo) GetCustomerByPhone(ctx context.Context, phone string) (*biz.Customer, error) {
+func (r *customerRepo) GetCustomerByPhoneNumber(ctx context.Context, phone string) (*biz.Customer, error) {
 	var c Customer
 	err := r.db.WithContext(ctx).
-		Joins("JOIN phones ON phones.customer_id = customers.id").
-		Where("phones.phone = ?", phone).
+		Joins("JOIN phone_numbers ON phone_numbers.customer_id = customers.id").
+		Where("phone_numbers.phone_number = ?", phone).
 		First(&c).Error
 	if err != nil {
+
 		return nil, err
 	}
 	return &biz.Customer{ID: c.ID, Name: c.Name, DateOfBirth: c.DateOfBirth}, nil

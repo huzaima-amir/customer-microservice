@@ -75,6 +75,10 @@ func (uc *CustomerUsecase) GetCustomerByEmail(ctx context.Context, email string)
 	return uc.repo.GetCustomerByEmail(ctx, email)
 }
 
+func (uc *CustomerUsecase) GetCustomerByPhoneNumber(ctx context.Context, phone string) (*Customer, error) {
+	return uc.repo.GetCustomerByPhoneNumber(ctx, phone)
+}
+
 func (uc *CustomerUsecase) ListCustomers(ctx context.Context) ([]*Customer, error) {
 	return uc.repo.ListCustomers(ctx)
 }
@@ -148,7 +152,7 @@ func (uc *CustomerUsecase) DeletePhoneNumber(ctx context.Context, id int64, p st
 	return uc.repo.UpdateCustomer(ctx, customer)
 }
 
-func (uc *CustomerUsecase) AddAddress(ctx context.Context, id int64, address string) error {
+func (uc *CustomerUsecase) AddAddress(ctx context.Context, id int64, address string) error { // addresses can be shared between different customers
 	customer, err := uc.repo.GetCustomer(ctx, id)
 	if err != nil {
 		return err
@@ -180,18 +184,31 @@ func (uc *CustomerUsecase) DeleteAddress(ctx context.Context, id int64, address 
 	return uc.repo.UpdateCustomer(ctx, customer)
 }
 
-// func (uc *CustomerUsecase) ListEmail(ctx context.Context, id int64) ([]*Email, error) {
-// 	return uc.repo.
-// }
-
-// func (uc *CustomerUsecase) ListPhoneNumber(ctx context.Context, id int64) ([]*PhoneNumber, error) {
-	
-// }
-
-
-// func (uc *CustomerUsecase) ListAddress(ctx context.Context, id int64) ([]*Address, error) {
-
-// }
+func (uc *CustomerUsecase) ListEmail(ctx context.Context, id int64) ([]Email, error) {
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return nil, err
+    }
+    return customer.Emails, nil
+}
 
 
-// ListAddresses, listPhoneNumbers, Listemails missing TODO
+func (uc *CustomerUsecase) ListPhoneNumber(ctx context.Context, id int64) ([]PhoneNumber, error) {
+	    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return nil, err
+    }
+    return customer.PhoneNumbers, nil
+}
+
+
+func (uc *CustomerUsecase) ListAddress(ctx context.Context, id int64) ([]Address, error) {
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return nil, err
+    }
+    return customer.Addresses, nil
+}
+
+
+// TODO - add error inside delete methods if item doesnt exist (currently ignored)

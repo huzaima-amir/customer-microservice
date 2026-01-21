@@ -30,3 +30,6 @@ func NewGRPCServer(c *conf.Server, greeter *service.CustomerService, logger log.
 	v1.RegisterCustomerServer(srv, greeter)
 	return srv
 }
+
+
+// TODO add middleware later
