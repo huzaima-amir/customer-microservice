@@ -76,6 +76,10 @@ func (uc *CustomerUsecase) DeleteCustomer(ctx context.Context, id int64) error {
     return uc.repo.DeleteCustomer(ctx, id)
 }
 
+func (uc *CustomerUsecase) UpdateCustomer(ctx context.Context, c *Customer) error {
+    return uc.repo.UpdateCustomer(ctx, c)
+}
+
 func (uc *CustomerUsecase) GetCustomer(ctx context.Context, id int64) (*Customer, error) {
 	return uc.repo.GetCustomer(ctx, id)
 }
@@ -109,6 +113,8 @@ func (uc *CustomerUsecase) AddEmail(ctx context.Context, id int64, e string) err
 	return uc.repo.UpdateCustomer(ctx, customer)
 
 }
+
+
 
 func (uc *CustomerUsecase) DeleteEmail(ctx context.Context, id int64, e string) error {
 	customer, err := uc.repo.GetCustomer(ctx, id)

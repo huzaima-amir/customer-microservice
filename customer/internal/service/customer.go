@@ -41,9 +41,49 @@ func (s *CustomerService) AddPhoneNumber(ctx context.Context, req *pb.AddPhoneNu
     }
     return &pb.AddPhoneNumberReply{}, nil
 }
-func (s *CustomerService) UpdateCustomer(ctx context.Context, req *pb.UpdateCustomerReq) (*pb.UpdateCustomerReply, error) { // TODO
-    return &pb.UpdateCustomerReply{}, nil
+func (s *CustomerService) UpdateCustomer(ctx context.Context, req *pb.UpdateCustomerReq) (*pb.UpdateCustomerReply, error) {
+    customer, err := s.uc.GetCustomer(ctx, req.Id)
+    if err != nil {
+        return nil, err
+    }
+
+    if req.Name != "" {
+        customer.Name = req.Name
+    }
+    if req.DateOfBirth != "" {
+        customer.DateOfBirth = req.DateOfBirth
+    }
+
+    if err := s.uc.UpdateCustomer(ctx, customer); err != nil {
+        return nil, err
+    }
+
+    phoneNumbers := make([]string, len(customer.PhoneNumbers))
+    for i, p := range customer.PhoneNumbers {
+        phoneNumbers[i] = p.PhoneNumber
+    }
+
+    emails := make([]string, len(customer.Emails))
+    for i, e := range customer.Emails {
+        emails[i] = e.Email
+    }
+
+    addresses := make([]string, len(customer.Addresses))
+    for i, a := range customer.Addresses {
+        addresses[i] = a.Address
+    }
+
+    return &pb.UpdateCustomerReply{
+        Id:           customer.ID,
+        Name:         customer.Name,
+        PhoneNumbers: phoneNumbers,
+        Emails:       emails,
+        Addresses:    addresses,
+        DateOfBirth:  customer.DateOfBirth,
+    }, nil
 }
+
+
 func (s *CustomerService) DeleteCustomer(ctx context.Context, req *pb.DeleteCustomerReq) (*pb.DeleteCustomerReply, error) {
     err := s.uc.DeleteCustomer(ctx, req.Id)
     if err != nil {
