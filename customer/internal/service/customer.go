@@ -39,7 +39,7 @@ func (s *CustomerService) AddPhoneNumber(ctx context.Context, req *pb.AddPhoneNu
     if err := s.uc.AddPhoneNumber(ctx, req.CustomerId, req.PhoneNumber); err != nil {
         return nil, err
     }
-    return &pb.AddPhoneNumberReply{}, nil
+    return &pb.AddPhoneNumberReply{Id: req.CustomerId,}, nil
 }
 func (s *CustomerService) UpdateCustomer(ctx context.Context, req *pb.UpdateCustomerReq) (*pb.UpdateCustomerReply, error) {
     customer, err := s.uc.GetCustomer(ctx, req.Id)
