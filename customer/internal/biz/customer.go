@@ -97,22 +97,26 @@ func (uc *CustomerUsecase) ListCustomer(ctx context.Context) ([]*Customer, error
 }
 
 func (uc *CustomerUsecase) AddEmail(ctx context.Context, id int64, e string) (*Email, error) {
-	// TODO add check for existing customer with this email
-	customer, err := uc.repo.GetCustomer(ctx, id)
-	if err != nil {			
-		return err
-	}
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return nil, err
+    }
 
-	newEmail := Email{			
-		CustomerID: id,
-		Email:      e,
-	}
+    newEmail := Email{
+        CustomerID: id,
+        Email:      e,
+    }
 
-	customer.Emails = append(customer.Emails, newEmail)
+    customer.Emails = append(customer.Emails, newEmail)
 
-	return uc.repo.UpdateCustomer(ctx, customer)
+    if err := uc.repo.UpdateCustomer(ctx, customer); err != nil {
+        return nil, err
+    }
 
+    //return last appended email
+    return &customer.Emails[len(customer.Emails)-1], nil
 }
+
 
 
 
@@ -134,21 +138,25 @@ func (uc *CustomerUsecase) DeleteEmail(ctx context.Context, id int64, e string) 
 }
 
 func (uc *CustomerUsecase) AddPhoneNumber(ctx context.Context, id int64, p string) (*PhoneNumber, error) {
-	// TODO add check for existing customer with this phone numer
-	customer, err := uc.repo.GetCustomer(ctx, id)
-	if err != nil {
-		return err
-	}
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return nil, err
+    }
 
-	newPhoneNumber := PhoneNumber {
-		CustomerID: id,
-		PhoneNumber: p,
-	}
+    newPhone := PhoneNumber{
+        CustomerID:  id,
+        PhoneNumber: p,
+    }
 
-	customer.PhoneNumbers = append(customer.PhoneNumbers, newPhoneNumber)
+    customer.PhoneNumbers = append(customer.PhoneNumbers, newPhone)
 
-	return uc.repo.UpdateCustomer(ctx, customer)
+    if err := uc.repo.UpdateCustomer(ctx, customer); err != nil {
+        return nil, err
+    }
+
+    return &customer.PhoneNumbers[len(customer.PhoneNumbers)-1], nil
 }
+
 
 func (uc *CustomerUsecase) DeletePhoneNumber(ctx context.Context, id int64, p string) error {
 	customer, err := uc.repo.GetCustomer(ctx, id)
@@ -167,21 +175,26 @@ func (uc *CustomerUsecase) DeletePhoneNumber(ctx context.Context, id int64, p st
 	return uc.repo.UpdateCustomer(ctx, customer)
 }
 
-func (uc *CustomerUsecase) AddAddress(ctx context.Context, id int64, address string) (Address, error) { // addresses can be shared between different customers
-	customer, err := uc.repo.GetCustomer(ctx, id)
-	if err != nil {
-		return nil, err
-	}
+func (uc *CustomerUsecase) AddAddress(ctx context.Context, id int64, addr string) (*Address, error) {
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return nil, err
+    }
 
-	newAddress := Address {
-		CustomerID: id,
-		Address: address,
-	}
+    newAddress := Address{
+        CustomerID: id,
+        Address:    addr,
+    }
 
-	customer.Addresses = append(customer.Addresses, newAddress)
+    customer.Addresses = append(customer.Addresses, newAddress)
 
-	return uc.repo.UpdateCustomer(ctx, customer)
+    if err := uc.repo.UpdateCustomer(ctx, customer); err != nil {
+        return nil, err
+    }
+
+    return &customer.Addresses[len(customer.Addresses)-1], nil
 }
+
 
 func (uc *CustomerUsecase) DeleteAddress(ctx context.Context, id int64, address string) error {
 	customer, err := uc.repo.GetCustomer(ctx, id)
@@ -226,6 +239,5 @@ func (uc *CustomerUsecase) ListAddress(ctx context.Context, id int64) ([]Address
 }
 
 
-// TODO - add error inside delete methods if item doesnt exist (currently ignored)
+// TODO - add error inside delete and add methods if item doesnt exist (currently ignored)
 
-// TODO - fix all add methods in biz and service !!!!
