@@ -97,9 +97,19 @@ func (uc *CustomerUsecase) ListCustomer(ctx context.Context) ([]*Customer, error
 }
 
 func (uc *CustomerUsecase) AddEmail(ctx context.Context, id int64, e string) (*Email, error) {
+    if e == "" {
+        return nil, errors.New("email cannot be empty")
+    }
+
     customer, err := uc.repo.GetCustomer(ctx, id)
     if err != nil {
         return nil, err
+    }
+
+    for _, existing := range customer.Emails {
+        if existing.Email == e {
+            return nil, errors.New("email already exists for this customer")
+        }
     }
 
     newEmail := Email{
@@ -113,34 +123,45 @@ func (uc *CustomerUsecase) AddEmail(ctx context.Context, id int64, e string) (*E
         return nil, err
     }
 
-    //return last appended email
-    return &customer.Emails[len(customer.Emails)-1], nil
+    return &customer.Emails[len(customer.Emails)-1], nil 
 }
 
-
-
-
 func (uc *CustomerUsecase) DeleteEmail(ctx context.Context, id int64, e string) error {
-	customer, err := uc.repo.GetCustomer(ctx, id)
-	if err != nil {
-		return err
-	}
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return err
+    }
 
-	for i, x := range customer.Emails {
-		if x.Email == e {
-			customer.Emails = append(customer.Emails[:i], customer.Emails[i+1:]...)
-			break
-		}
-	}
+    found := false
+    for i, x := range customer.Emails {
+        if x.Email == e {
+            customer.Emails = append(customer.Emails[:i], customer.Emails[i+1:]...)
+            found = true
+            break
+        }
+    }
 
-	return uc.repo.UpdateCustomer(ctx, customer)
+    if !found {
+        return errors.New("email not found for this customer")
+    }
 
+    return uc.repo.UpdateCustomer(ctx, customer)
 }
 
 func (uc *CustomerUsecase) AddPhoneNumber(ctx context.Context, id int64, p string) (*PhoneNumber, error) {
+    if p == "" {
+        return nil, errors.New("phone number cannot be empty")
+    }
+
     customer, err := uc.repo.GetCustomer(ctx, id)
     if err != nil {
         return nil, err
+    }
+
+    for _, existing := range customer.PhoneNumbers {
+        if existing.PhoneNumber == p {
+            return nil, errors.New("phone number already exists for this customer")
+        }
     }
 
     newPhone := PhoneNumber{
@@ -159,26 +180,42 @@ func (uc *CustomerUsecase) AddPhoneNumber(ctx context.Context, id int64, p strin
 
 
 func (uc *CustomerUsecase) DeletePhoneNumber(ctx context.Context, id int64, p string) error {
-	customer, err := uc.repo.GetCustomer(ctx, id)
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return err
+    }
 
-	if err != nil {
-		return err
-	}
+    found := false
+    for i, x := range customer.PhoneNumbers {
+        if x.PhoneNumber == p {
+            customer.PhoneNumbers = append(customer.PhoneNumbers[:i], customer.PhoneNumbers[i+1:]...)
+            found = true
+            break
+        }
+    }
 
-	for i, x := range customer.PhoneNumbers {
-		if x.PhoneNumber == p {
-			customer.PhoneNumbers = append(customer.PhoneNumbers[:i], customer.PhoneNumbers[i + 1:]...)
-			break
-		}
-	}
+    if !found {
+        return errors.New("phone number not found for this customer")
+    }
 
-	return uc.repo.UpdateCustomer(ctx, customer)
+    return uc.repo.UpdateCustomer(ctx, customer)
 }
 
+
 func (uc *CustomerUsecase) AddAddress(ctx context.Context, id int64, addr string) (*Address, error) {
+    if addr == "" {
+        return nil, errors.New("address cannot be empty")
+    }
+
     customer, err := uc.repo.GetCustomer(ctx, id)
     if err != nil {
         return nil, err
+    }
+
+    for _, existing := range customer.Addresses {
+        if existing.Address == addr {
+            return nil, errors.New("address already exists for this customer")
+        }
     }
 
     newAddress := Address{
@@ -197,19 +234,25 @@ func (uc *CustomerUsecase) AddAddress(ctx context.Context, id int64, addr string
 
 
 func (uc *CustomerUsecase) DeleteAddress(ctx context.Context, id int64, address string) error {
-	customer, err := uc.repo.GetCustomer(ctx, id)
-	if err != nil {
-		return err
-	}
+    customer, err := uc.repo.GetCustomer(ctx, id)
+    if err != nil {
+        return err
+    }
 
-	for i, x := range customer.Addresses {
-		if x.Address == address {
-			customer.Addresses = append(customer.Addresses[:i], customer.Addresses[i + 1:]...)
-			break
-		}
-	}
+    found := false
+    for i, x := range customer.Addresses {
+        if x.Address == address {
+            customer.Addresses = append(customer.Addresses[:i], customer.Addresses[i+1:]...)
+            found = true
+            break
+        }
+    }
 
-	return uc.repo.UpdateCustomer(ctx, customer)
+    if !found {
+        return errors.New("address not found for this customer")
+    }
+
+    return uc.repo.UpdateCustomer(ctx, customer)
 }
 
 func (uc *CustomerUsecase) ListEmail(ctx context.Context, id int64) ([]Email, error) {

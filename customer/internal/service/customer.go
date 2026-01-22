@@ -29,18 +29,32 @@ func (s *CustomerService) CreateCustomer(ctx context.Context, req *pb.CreateCust
 }
 
 func (s *CustomerService) AddEmail(ctx context.Context, req *pb.AddEmailReq) (*pb.AddEmailReply, error) {
-    if err := s.uc.AddEmail(ctx, req.CustomerId, req.Email); err != nil {
+    email, err := s.uc.AddEmail(ctx, req.CustomerId, req.Email)
+    if err != nil {
         return nil, err
     }
-    return &pb.AddEmailReply{Id: req.CustomerId}, nil
+
+    return &pb.AddEmailReply{
+        Id:         email.ID,
+        CustomerId: email.CustomerID,
+        Email:      email.Email,
+    }, nil
 }
 
+
 func (s *CustomerService) AddPhoneNumber(ctx context.Context, req *pb.AddPhoneNumberReq) (*pb.AddPhoneNumberReply, error) {
-    if err := s.uc.AddPhoneNumber(ctx, req.CustomerId, req.PhoneNumber); err != nil {
+    phone, err := s.uc.AddPhoneNumber(ctx, req.CustomerId, req.PhoneNumber)
+    if err != nil {
         return nil, err
     }
-    return &pb.AddPhoneNumberReply{Id: req.CustomerId,}, nil
+
+    return &pb.AddPhoneNumberReply{
+        Id:          phone.ID,
+        CustomerId:  phone.CustomerID,
+        PhoneNumber: phone.PhoneNumber,
+    }, nil
 }
+
 func (s *CustomerService) UpdateCustomer(ctx context.Context, req *pb.UpdateCustomerReq) (*pb.UpdateCustomerReply, error) {
     customer, err := s.uc.GetCustomer(ctx, req.Id)
     if err != nil {
@@ -137,11 +151,18 @@ func (s *CustomerService) ListCustomer(ctx context.Context, req *pb.ListCustomer
 }
 
 func (s *CustomerService) AddAddress(ctx context.Context, req *pb.AddAddressReq) (*pb.AddAddressReply, error) {
-    if err := s.uc.AddAddress(ctx, req.CustomerId, req.Address); err != nil {
+    addr, err := s.uc.AddAddress(ctx, req.CustomerId, req.Address)
+    if err != nil {
         return nil, err
     }
-    return &pb.AddAddressReply{}, nil
+
+    return &pb.AddAddressReply{
+        Id:         addr.ID,
+        CustomerId: addr.CustomerID,
+        Address:    addr.Address,
+    }, nil
 }
+
 func (s *CustomerService) ListAddress(ctx context.Context, req *pb.ListAddressReq) (*pb.ListAddressReply, error) {
     addresses, err := s.uc.ListAddress(ctx, req.CustomerId)
     if err != nil {
@@ -298,6 +319,7 @@ func (s *CustomerService) DeleteAddress(ctx context.Context, req *pb.DeleteAddre
         Success: true,
     }, nil
 }
+
 func (s *CustomerService) DeleteEmail(ctx context.Context, req *pb.DeleteEmailReq) (*pb.DeleteEmailReply, error) {
     err := s.uc.DeleteEmail(ctx, req.CustomerId, req.Email)
     if err != nil {
