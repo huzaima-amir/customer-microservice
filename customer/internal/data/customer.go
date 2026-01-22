@@ -277,6 +277,13 @@ func (r *customerRepo) ListAddresses(ctx context.Context, customerID int64) ([]s
 }
 
 
-// TODO add preload for the phone numbers, emails and addresses - GORM does not load up to date values for foreign keys, only default values - ""
-
-// cant have preload all for all methods - increases complexity too much
+// transaction helper:
+func (r *customerRepo) Tx(ctx context.Context, fn func(ctx context.Context) error) error {
+    return r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+        // temporarily replace the repo's DB with the transaction DB
+        old := r.db
+        r.db = tx
+        defer func() { r.db = old }()
+        return fn(ctx)
+    })
+}

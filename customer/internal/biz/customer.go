@@ -38,15 +38,34 @@ type Address struct {
 //  repository interface 
 
 type CustomerRepo interface {
-	// customer
-	CreateCustomer(ctx context.Context, c *Customer) error
-	UpdateCustomer(ctx context.Context, c *Customer) error
-	DeleteCustomer(ctx context.Context, id int64) error
-	GetCustomer(ctx context.Context, id int64) (*Customer, error)
-	ListCustomer(ctx context.Context) ([]*Customer, error)
-	GetCustomerByEmail(ctx context.Context, email string) (*Customer, error)
-	GetCustomerByPhoneNumber(ctx context.Context, phone string) (*Customer, error)
+    // customer
+    CreateCustomer(ctx context.Context, c *Customer) error
+    UpdateCustomer(ctx context.Context, c *Customer) error
+    DeleteCustomer(ctx context.Context, id int64) error
+    GetCustomer(ctx context.Context, id int64) (*Customer, error)
+    ListCustomer(ctx context.Context) ([]*Customer, error)
+    GetCustomerByEmail(ctx context.Context, email string) (*Customer, error)
+    GetCustomerByPhoneNumber(ctx context.Context, phone string) (*Customer, error)
+
+    // email
+    AddEmail(ctx context.Context, e *Email) error
+    DeleteEmail(ctx context.Context, customerID int64, email string) error
+    ListEmails(ctx context.Context, customerID int64) ([]string, error)
+
+    // phone
+    AddPhoneNumber(ctx context.Context, p *PhoneNumber) error
+    DeletePhoneNumber(ctx context.Context, customerID int64, phone string) error
+    ListPhoneNumbers(ctx context.Context, customerID int64) ([]string, error)
+
+    // address
+    AddAddress(ctx context.Context, a *Address) error
+    DeleteAddress(ctx context.Context, customerID int64, address string) error
+    ListAddresses(ctx context.Context, customerID int64) ([]string, error)
+
+    // transactions
+    Tx(ctx context.Context, fn func(ctx context.Context) error) error
 }
+
 
 // usecase 
 
@@ -281,6 +300,28 @@ func (uc *CustomerUsecase) ListAddress(ctx context.Context, id int64) ([]Address
     return customer.Addresses, nil
 }
 
+func (uc *CustomerUsecase) CreateCustomerWithDetails(ctx context.Context, c *Customer) error {
+    return uc.repo.Tx(ctx, func(ctx context.Context) error {
+        if err := uc.repo.CreateCustomer(ctx, c); err != nil {
+            return err
+        }
 
-// TODO - add error inside delete and add methods if item doesnt exist (currently ignored)
+        for _, e := range c.Emails {
+            e.CustomerID = c.ID
+            if err := uc.repo.AddEmail(ctx, &e); err != nil {
+                return err
+            }
+        }
+
+        for _, p := range c.PhoneNumbers {
+            p.CustomerID = c.ID
+            if err := uc.repo.AddPhoneNumber(ctx, &p); err != nil {
+                return err
+            }
+        }
+
+        return nil
+    })
+}
+
 
