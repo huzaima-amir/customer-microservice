@@ -46,6 +46,44 @@ func NewCustomerRepo(data *Data) biz.CustomerRepo {
 }
 
 
+// helpers to map db slices to biz types
+func toBizEmails(in []Email) []biz.Email {
+    out := make([]biz.Email, len(in))
+    for i, e := range in {
+        out[i] = biz.Email{
+            ID:         e.ID,
+            CustomerID: e.CustomerID,
+            Email:      e.Email,
+        }
+    }
+    return out
+}
+
+func toBizPhones(in []PhoneNumber) []biz.PhoneNumber {
+    out := make([]biz.PhoneNumber, len(in))
+    for i, p := range in {
+        out[i] = biz.PhoneNumber{
+            ID:          p.ID,
+            CustomerID:  p.CustomerID,
+            PhoneNumber: p.PhoneNumber,
+        }
+    }
+    return out
+}
+
+func toBizAddresses(in []Address) []biz.Address {
+    out := make([]biz.Address, len(in))
+    for i, a := range in {
+        out[i] = biz.Address{
+            ID:         a.ID,
+            CustomerID: a.CustomerID,
+            Address:    a.Address,
+        }
+    }
+    return out
+}
+
+
 //  customer 
 func (r *customerRepo) CreateCustomer(ctx context.Context, c *biz.Customer) error {
 	model := Customer{
@@ -73,33 +111,51 @@ func (r *customerRepo) DeleteCustomer(ctx context.Context, id int64) error {
 	return r.db.WithContext(ctx).Delete(&Customer{}, id).Error
 }
 
-func (r *customerRepo) GetCustomer(ctx context.Context, id int64) (*biz.Customer, error) {
+func (r *customerRepo) GetCustomer(ctx context.Context, id int64) (*biz.Customer, error) { // TODO preload emails, phonenumbers, and addresses
 	var m Customer
-	if err := r.db.WithContext(ctx).First(&m, id).Error; err != nil {
+	err := r.db.WithContext(ctx).
+			Preload("Emails").
+			Preload("PhoneNumbers").				
+			Preload("Addresses").
+			First(&m, id).Error
+	if err != nil {
 		return nil, err
 	}
 	return &biz.Customer{
 		ID:          m.ID,
 		Name:        m.Name,
 		DateOfBirth: m.DateOfBirth,
+		Emails:      toBizEmails(m.Emails),
+		PhoneNumbers: toBizPhones(m.PhoneNumbers),
+		Addresses:    toBizAddresses(m.Addresses),
 	}, nil
 }
 
 func (r *customerRepo) ListCustomer(ctx context.Context) ([]*biz.Customer, error) {
-	var models []Customer
-	if err := r.db.WithContext(ctx).Find(&models).Error; err != nil {
-		return nil, err
-	}
-	out := make([]*biz.Customer, 0, len(models))
-	for _, m := range models {
-		out = append(out, &biz.Customer{
-			ID:          m.ID,
-			Name:        m.Name,
-			DateOfBirth: m.DateOfBirth,
-		})
-	}
-	return out, nil
+    var models []Customer
+    err := r.db.WithContext(ctx).
+        Preload("Emails").
+        Preload("PhoneNumbers").
+        Preload("Addresses").
+        Find(&models).Error
+    if err != nil {
+        return nil, err
+    }
+
+    out := make([]*biz.Customer, 0, len(models))
+    for _, m := range models {
+        out = append(out, &biz.Customer{
+            ID:           m.ID,
+            Name:         m.Name,
+            DateOfBirth:  m.DateOfBirth,
+            Emails:       toBizEmails(m.Emails),
+            PhoneNumbers: toBizPhones(m.PhoneNumbers),
+            Addresses:    toBizAddresses(m.Addresses),
+        })
+    }
+    return out, nil
 }
+
 
 
 // email 
@@ -127,16 +183,28 @@ func (r *customerRepo) ListEmails(ctx context.Context, customerID int64) ([]stri
 }
 
 func (r *customerRepo) GetCustomerByEmail(ctx context.Context, email string) (*biz.Customer, error) {
-	var c Customer
-	err := r.db.WithContext(ctx).
-		Joins("JOIN emails ON emails.customer_id = customers.id").
-		Where("emails.email = ?", email).
-		First(&c).Error
-	if err != nil {
-		return nil, err
-	}
-	return &biz.Customer{ID: c.ID, Name: c.Name, DateOfBirth: c.DateOfBirth}, nil
+    var c Customer
+    err := r.db.WithContext(ctx).
+        Preload("Emails").
+        Preload("PhoneNumbers").
+        Preload("Addresses").
+        Joins("JOIN emails ON emails.customer_id = customers.id").
+        Where("emails.email = ?", email).
+        First(&c).Error
+    if err != nil {
+        return nil, err
+    }
+
+    return &biz.Customer{
+        ID:           c.ID,
+        Name:         c.Name,
+        DateOfBirth:  c.DateOfBirth,
+        Emails:       toBizEmails(c.Emails),
+        PhoneNumbers: toBizPhones(c.PhoneNumbers),
+        Addresses:    toBizAddresses(c.Addresses),
+    }, nil
 }
+
 
 // phone 
 func (r *customerRepo) AddPhoneNumber(ctx context.Context, p *biz.PhoneNumber) error {
@@ -162,17 +230,28 @@ func (r *customerRepo) ListPhoneNumbers(ctx context.Context, customerID int64) (
 }
 
 func (r *customerRepo) GetCustomerByPhoneNumber(ctx context.Context, phone string) (*biz.Customer, error) {
-	var c Customer
-	err := r.db.WithContext(ctx).
-		Joins("JOIN phone_numbers ON phone_numbers.customer_id = customers.id").
-		Where("phone_numbers.phone_number = ?", phone).
-		First(&c).Error
-	if err != nil {
+    var c Customer
+    err := r.db.WithContext(ctx).
+        Preload("Emails").
+        Preload("PhoneNumbers").
+        Preload("Addresses").
+        Joins("JOIN phone_numbers ON phone_numbers.customer_id = customers.id").
+        Where("phone_numbers.phone_number = ?", phone).
+        First(&c).Error
+    if err != nil {
+        return nil, err
+    }
 
-		return nil, err
-	}
-	return &biz.Customer{ID: c.ID, Name: c.Name, DateOfBirth: c.DateOfBirth}, nil
+    return &biz.Customer{
+        ID:           c.ID,
+        Name:         c.Name,
+        DateOfBirth:  c.DateOfBirth,
+        Emails:       toBizEmails(c.Emails),
+        PhoneNumbers: toBizPhones(c.PhoneNumbers),
+        Addresses:    toBizAddresses(c.Addresses),
+    }, nil
 }
+
 
 // address 
 func (r *customerRepo) AddAddress(ctx context.Context, a *biz.Address) error {
@@ -196,3 +275,8 @@ func (r *customerRepo) ListAddresses(ctx context.Context, customerID int64) ([]s
 		Pluck("address", &addresses).Error
 	return addresses, err
 }
+
+
+// TODO add preload for the phone numbers, emails and addresses - GORM does not load up to date values for foreign keys, only default values - ""
+
+// cant have preload all for all methods - increases complexity too much
