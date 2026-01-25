@@ -11,7 +11,7 @@ import (
     "google.golang.org/grpc"
     pb "customer/api/customer/v1"
 )
-
+// FIX biz layer logic - issues with calling repo layer - emails, addresses and phone numbers are being treated as embedded fields instead of separate tables leading to errors in transaction
 func must(err error) {
     if err != nil {
         log.Fatal(err)
@@ -31,7 +31,7 @@ func writeJSON(filename string, v any) {
 
 func main() {
     // Connect to gRPC server
-    conn, err := grpc.Dial("127.0.0.1:9000", grpc.WithInsecure())
+    conn, err := grpc.Dial("127.0.0.1:9000", grpc.WithInsecure())  // strikethrough - FIX
     must(err)
     defer conn.Close()
 
@@ -39,7 +39,7 @@ func main() {
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
 
-    // 1. Create Customer
+    // Create Customer
     createResp, err := client.CreateCustomer(ctx, &pb.CreateCustomerReq{
         Name:         "Alice",
         DateOfBirth:  "2000-01-01",
@@ -50,7 +50,7 @@ func main() {
 
     customerID := createResp.Id
 
-    // 2. Add Email
+    // Add Email
     emailResp, err := client.AddEmail(ctx, &pb.AddEmailReq{
         CustomerId: customerID,
         Email:      "alice@example.com",
@@ -59,7 +59,7 @@ func main() {
     printJSON("AddEmail", emailResp)
     writeJSON("add_email.json", emailResp)
 
-    // 3. Add Phone Number
+    //Add Phone Number
     phoneResp, err := client.AddPhoneNumber(ctx, &pb.AddPhoneNumberReq{
         CustomerId:  customerID,
         PhoneNumber: "123456789",
@@ -68,7 +68,7 @@ func main() {
     printJSON("AddPhoneNumber", phoneResp)
     writeJSON("add_phone.json", phoneResp)
 
-    // 4. Add Address
+    // add Address
     addrResp, err := client.AddAddress(ctx, &pb.AddAddressReq{
         CustomerId: customerID,
         Address:    "123 Main St",
@@ -77,7 +77,7 @@ func main() {
     printJSON("AddAddress", addrResp)
     writeJSON("add_address.json", addrResp)
 
-    // 5. Get Customer (with nested data)
+    // get Customer (with nested data)
     getResp, err := client.GetCustomer(ctx, &pb.GetCustomerReq{
         Id: customerID,
     })
@@ -85,7 +85,7 @@ func main() {
     printJSON("GetCustomer", getResp)
     writeJSON("get_customer.json", getResp)
 
-    // 6. List Emails
+    // list Emails
     listEmailsResp, err := client.ListEmail(ctx, &pb.ListEmailReq{
         CustomerId: customerID,
     })
@@ -93,7 +93,7 @@ func main() {
     printJSON("ListEmails", listEmailsResp)
     writeJSON("list_emails.json", listEmailsResp)
 
-    // 7. List Phone Numbers
+    //lit Phone Numbers
     listPhonesResp, err := client.ListPhoneNumber(ctx, &pb.ListPhoneNumberReq{
         CustomerId: customerID,
     })
@@ -101,7 +101,7 @@ func main() {
     printJSON("ListPhoneNumbers", listPhonesResp)
     writeJSON("list_phones.json", listPhonesResp)
 
-    // 8. List Addresses
+    //List Addresses
     listAddrResp, err := client.ListAddress(ctx, &pb.ListAddressReq{
         CustomerId: customerID,
     })
@@ -109,13 +109,13 @@ func main() {
     printJSON("ListAddresses", listAddrResp)
     writeJSON("list_addresses.json", listAddrResp)
 
-    // 9. List All Customers
+    // List All Customers
     listCustResp, err := client.ListCustomer(ctx, &pb.ListCustomerReq{})
     must(err)
     printJSON("ListCustomer", listCustResp)
     writeJSON("list_customers.json", listCustResp)
 
-    // 10. Delete Email
+    // Delete Email
     delEmailResp, err := client.DeleteEmail(ctx, &pb.DeleteEmailReq{
         CustomerId: customerID,
         Email:      "alice@example.com",
@@ -124,7 +124,7 @@ func main() {
     printJSON("DeleteEmail", delEmailResp)
     writeJSON("delete_email.json", delEmailResp)
 
-    // 11. Delete Phone Number
+    // Delete Phone Number
     delPhoneResp, err := client.DeletePhoneNumber(ctx, &pb.DeletePhoneNumberReq{
         CustomerId: customerID,
         PhoneNumber: "123456789",
@@ -133,7 +133,7 @@ func main() {
     printJSON("DeletePhoneNumber", delPhoneResp)
     writeJSON("delete_phone.json", delPhoneResp)
 
-    // 12. Delete Address
+    ///delete Address
     delAddrResp, err := client.DeleteAddress(ctx, &pb.DeleteAddressReq{
         CustomerId: customerID,
         Address:    "123 Main St",
@@ -142,7 +142,7 @@ func main() {
     printJSON("DeleteAddress", delAddrResp)
     writeJSON("delete_address.json", delAddrResp)
 
-    // 13. Delete Customer
+    //Delete Customer
     delCustResp, err := client.DeleteCustomer(ctx, &pb.DeleteCustomerReq{
         Id: customerID,
     })
