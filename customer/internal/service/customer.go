@@ -72,27 +72,27 @@ func (s *CustomerService) UpdateCustomer(ctx context.Context, req *pb.UpdateCust
         return nil, err
     }
 
-    phoneNumbers := make([]string, len(customer.PhoneNumbers))
-    for i, p := range customer.PhoneNumbers {
-        phoneNumbers[i] = p.PhoneNumber
-    }
+    // phoneNumbers := make([]string, len(customer.PhoneNumbers))
+    // for i, p := range customer.PhoneNumbers {
+    //     phoneNumbers[i] = p.PhoneNumber
+    // }
 
-    emails := make([]string, len(customer.Emails))
-    for i, e := range customer.Emails {
-        emails[i] = e.Email
-    }
+    // emails := make([]string, len(customer.Emails))
+    // for i, e := range customer.Emails {
+    //     emails[i] = e.Email
+    // }
 
-    addresses := make([]string, len(customer.Addresses))
-    for i, a := range customer.Addresses {
-        addresses[i] = a.Address
-    }
+    // addresses := make([]string, len(customer.Addresses))
+    // for i, a := range customer.Addresses {
+    //     addresses[i] = a.Address
+    // }
 
     return &pb.UpdateCustomerReply{
         Id:           customer.ID,
         Name:         customer.Name,
-        PhoneNumbers: phoneNumbers,
-        Emails:       emails,
-        Addresses:    addresses,
+        // PhoneNumbers: phoneNumbers,
+        // Emails:       emails,
+        // Addresses:    addresses,
         DateOfBirth:  customer.DateOfBirth,
     }, nil
 }
@@ -120,27 +120,27 @@ func (s *CustomerService) ListCustomer(ctx context.Context, req *pb.ListCustomer
 
     for _, c := range customers {
 
-        phoneNumbers := make([]string, len(c.PhoneNumbers))
-        for i, p := range c.PhoneNumbers {
-            phoneNumbers[i] = p.PhoneNumber
-        }
+        // phoneNumbers := make([]string, len(c.PhoneNumbers))
+        // for i, p := range c.PhoneNumbers {
+        //     phoneNumbers[i] = p.PhoneNumber
+        // }
 
-        emails := make([]string, len(c.Emails))
-        for i, e := range c.Emails {
-            emails[i] = e.Email
-        }
+        // emails := make([]string, len(c.Emails))
+        // for i, e := range c.Emails {
+        //     emails[i] = e.Email
+        // }
 
-        addresses := make([]string, len(c.Addresses))
-        for i, a := range c.Addresses {
-            addresses[i] = a.Address
-        }
+        // addresses := make([]string, len(c.Addresses))
+        // for i, a := range c.Addresses {
+        //     addresses[i] = a.Address
+        // }
 
         pbCustomers = append(pbCustomers, &pb.GetCustomerReply{
             Id:           c.ID,
             Name:         c.Name,
-            PhoneNumbers: phoneNumbers,
-            Emails:       emails,
-            Addresses:    addresses,
+            // PhoneNumbers: phoneNumbers,
+            // Emails:       emails,
+            // Addresses:    addresses,
             DateOfBirth:  c.DateOfBirth,
         })
     }
@@ -168,12 +168,12 @@ func (s *CustomerService) ListAddress(ctx context.Context, req *pb.ListAddressRe
     if err != nil {
         return nil, err
     }
-    addressStrings := make([]string, len(addresses))
-    for i, e := range addresses {
-        addressStrings[i] = e.Address
-    }
+    // addressStrings := make([]string, len(addresses))
+    // for i, e := range addresses {
+    //     addressStrings[i] = e.Address
+    // }
     return &pb.ListAddressReply{
-        Addresses: addressStrings,
+        Addresses: addresses,
     }, nil
 }
 
@@ -182,12 +182,12 @@ func (s *CustomerService) ListPhoneNumber(ctx context.Context, req *pb.ListPhone
     if err != nil {
         return nil, err
     }
-    phoneNumberStrings := make([]string, len(phoneNumbers))
-    for i, e := range phoneNumbers {
-        phoneNumberStrings[i] = e.PhoneNumber
-    }
+    // phoneNumberStrings := make([]string, len(phoneNumbers))
+    // for i, e := range phoneNumbers {
+    //     phoneNumberStrings[i] = e.PhoneNumber
+    // }
     return &pb.ListPhoneNumberReply{
-        PhoneNumbers: phoneNumberStrings,
+        PhoneNumbers: phoneNumbers,
     }, nil
 }
 
@@ -197,13 +197,13 @@ func (s *CustomerService) ListEmail(ctx context.Context, req *pb.ListEmailReq) (
         return nil, err
     }
 
-    emailStrings := make([]string, len(emails))
-    for i, e := range emails {
-        emailStrings[i] = e.Email
-    }
+    // emailStrings := make([]string, len(emails))
+    // for i, e := range emails {
+    //     emailStrings[i] = e.Email
+    // }
 
     return &pb.ListEmailReply{
-        Emails: emailStrings,
+        Emails: emails,
     }, nil
 }
 
@@ -213,57 +213,74 @@ func (s *CustomerService) GetCustomer(ctx context.Context, req *pb.GetCustomerRe
         return nil, err
     }
 
-    phoneNumbers := make([]string, len(customer.PhoneNumbers))
-    for i, p := range customer.PhoneNumbers {
-        phoneNumbers[i] = p.PhoneNumber
-    }
+    // phones, err := s.uc.ListPhoneNumber(ctx, customer.ID)
+    // if err != nil {
+    //     return nil, err
+    // }
 
-    emails := make([]string, len(customer.Emails))
-    for i, e := range customer.Emails {
-        emails[i] = e.Email
-    }
+    // emails, err := s.uc.ListEmail(ctx, customer.ID)
+    // if err != nil {
+    //     return nil, err
+    // }
 
-    addresses := make([]string, len(customer.Addresses))
-    for i, a := range customer.Addresses {
-        addresses[i] = a.Address
-    }
+    // addresses, err := s.uc.ListAddress(ctx, customer.ID)
+    // if err != nil {
+    //     return nil, err
+    // }
+
+    // phoneStrings := make([]string, len(phones))
+    // for i, p := range phones {
+    //     phoneStrings[i] = p.PhoneNumber
+    // }
+
+    // emailStrings := make([]string, len(emails))
+    // for i, e := range emails {
+    //     emailStrings[i] = e.Email
+    // }
+
+    // addressStrings := make([]string, len(addresses))
+    // for i, a := range addresses {
+    //     addressStrings[i] = a.Address
+    // }
 
     return &pb.GetCustomerReply{
         Id:           customer.ID,
         Name:         customer.Name,
-        PhoneNumbers: phoneNumbers,
-        Emails:       emails,
-        Addresses:    addresses,
         DateOfBirth:  customer.DateOfBirth,
+        // PhoneNumbers: phoneStrings,
+        // Emails:       emailStrings,
+        // Addresses:    addressStrings,
     }, nil
 }
+
+
 
 func (s *CustomerService) GetCustomerByEmail(ctx context.Context, req *pb.GetCustomerByEmailReq) (*pb.GetCustomerByEmailReply, error) {
     customer, err := s.uc.GetCustomerByEmail(ctx, req.Email)
     if err != nil {
         return nil, err
     }
-        phoneNumbers := make([]string, len(customer.PhoneNumbers))
-    for i, p := range customer.PhoneNumbers {
-        phoneNumbers[i] = p.PhoneNumber
-    }
+    //     phoneNumbers := make([]string, len(customer.PhoneNumbers))
+    // for i, p := range customer.PhoneNumbers {
+    //     phoneNumbers[i] = p.PhoneNumber
+    // }
 
-    emails := make([]string, len(customer.Emails))
-    for i, e := range customer.Emails {
-        emails[i] = e.Email
-    }
+    // emails := make([]string, len(customer.Emails))
+    // for i, e := range customer.Emails {
+    //     emails[i] = e.Email
+    // }
 
-    addresses := make([]string, len(customer.Addresses))
-    for i, a := range customer.Addresses {
-        addresses[i] = a.Address
-    }
+    // addresses := make([]string, len(customer.Addresses))
+    // for i, a := range customer.Addresses {
+    //     addresses[i] = a.Address
+    // }
 
     return &pb.GetCustomerByEmailReply{
         Id:           customer.ID,
         Name:         customer.Name,
-        PhoneNumbers: phoneNumbers,
-        Emails:       emails,
-        Addresses:    addresses,
+        // PhoneNumbers: phoneNumbers,
+        // Emails:       emails,
+        // Addresses:    addresses,
         DateOfBirth:  customer.DateOfBirth,
     }, nil
 }
@@ -273,27 +290,27 @@ func (s *CustomerService) GetCustomerByPhoneNumber(ctx context.Context, req *pb.
     if err != nil {
         return nil, err
     }
-    phoneNumbers := make([]string, len(customer.PhoneNumbers))
-    for i, p := range customer.PhoneNumbers {
-        phoneNumbers[i] = p.PhoneNumber
-    }
+    // phoneNumbers := make([]string, len(customer.PhoneNumbers))
+    // for i, p := range customer.PhoneNumbers {
+    //     phoneNumbers[i] = p.PhoneNumber
+    // }
 
-    emails := make([]string, len(customer.Emails))
-    for i, e := range customer.Emails {
-        emails[i] = e.Email
-    }
+    // emails := make([]string, len(customer.Emails))
+    // for i, e := range customer.Emails {
+    //     emails[i] = e.Email
+    // }
 
-    addresses := make([]string, len(customer.Addresses))
-    for i, a := range customer.Addresses {
-        addresses[i] = a.Address
-    }
+    // addresses := make([]string, len(customer.Addresses))
+    // for i, a := range customer.Addresses {
+    //     addresses[i] = a.Address
+    // }
 
     return &pb.GetCustomerByPhoneNumberReply{
         Id:           customer.ID,
         Name:         customer.Name,
-        PhoneNumbers: phoneNumbers,
-        Emails:       emails, 
-        Addresses:    addresses,
+        // PhoneNumbers: phoneNumbers,
+        // Emails:       emails, 
+        // Addresses:    addresses,
         DateOfBirth:  customer.DateOfBirth,
     }, nil
 }

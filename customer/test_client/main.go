@@ -11,7 +11,11 @@ import (
     "google.golang.org/grpc"
     pb "customer/api/customer/v1"
 )
-// FIX biz layer logic - issues with calling repo layer - emails, addresses and phone numbers are being treated as embedded fields instead of separate tables leading to errors in transaction
+// FIX biz layer logic - issues with calling repo layer -
+//  emails, addresses and phone numbers are being treated as embedded fields instead of separate tables leading to errors in transaction
+// Remove preload - unnecessary FIX service and data layer
+// call repo imn biz layer instead of using the nested values(remove nested layers) -  DONE
+// FIXED ^^^^^^^^^^^^^^^^^^^^^^
 func must(err error) {
     if err != nil {
         log.Fatal(err)

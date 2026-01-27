@@ -13,7 +13,7 @@ type Customer struct {
 	DateOfBirth string
 	Emails      []Email
 	PhoneNumbers []PhoneNumber
-	Addresses      []Address
+	Addresses    []Address
 }
 
 
@@ -111,25 +111,19 @@ func (r *customerRepo) DeleteCustomer(ctx context.Context, id int64) error {
 	return r.db.WithContext(ctx).Delete(&Customer{}, id).Error
 }
 
-func (r *customerRepo) GetCustomer(ctx context.Context, id int64) (*biz.Customer, error) { // TODO preload emails, phonenumbers, and addresses
+func (r *customerRepo) GetCustomer(ctx context.Context, id int64) (*biz.Customer, error) {
 	var m Customer
-	err := r.db.WithContext(ctx).
-			Preload("Emails").
-			Preload("PhoneNumbers").				
-			Preload("Addresses").
-			First(&m, id).Error
-	if err != nil {
+	if err := r.db.WithContext(ctx).First(&m, id).Error; err != nil {
 		return nil, err
 	}
+
 	return &biz.Customer{
 		ID:          m.ID,
 		Name:        m.Name,
 		DateOfBirth: m.DateOfBirth,
-		Emails:      toBizEmails(m.Emails),
-		PhoneNumbers: toBizPhones(m.PhoneNumbers),
-		Addresses:    toBizAddresses(m.Addresses),
 	}, nil
 }
+
 
 func (r *customerRepo) ListCustomer(ctx context.Context) ([]*biz.Customer, error) {
     var models []Customer
@@ -148,14 +142,13 @@ func (r *customerRepo) ListCustomer(ctx context.Context) ([]*biz.Customer, error
             ID:           m.ID,
             Name:         m.Name,
             DateOfBirth:  m.DateOfBirth,
-            Emails:       toBizEmails(m.Emails),
-            PhoneNumbers: toBizPhones(m.PhoneNumbers),
-            Addresses:    toBizAddresses(m.Addresses),
+            // Emails:       toBizEmails(m.Emails),
+            // PhoneNumbers: toBizPhones(m.PhoneNumbers),
+            // Addresses:    toBizAddresses(m.Addresses),
         })
     }
     return out, nil
 }
-
 
 
 // email 
@@ -173,7 +166,7 @@ func (r *customerRepo) DeleteEmail(ctx context.Context, customerID int64, email 
 		Delete(&Email{}).Error
 }
 
-func (r *customerRepo) ListEmails(ctx context.Context, customerID int64) ([]string, error) {
+func (r *customerRepo) ListEmails(ctx context.Context, customerID int64) ([]string, error) {  // duplicate issue
 	var emails []string
 	err := r.db.WithContext(ctx).
 		Model(&Email{}).
@@ -199,9 +192,9 @@ func (r *customerRepo) GetCustomerByEmail(ctx context.Context, email string) (*b
         ID:           c.ID,
         Name:         c.Name,
         DateOfBirth:  c.DateOfBirth,
-        Emails:       toBizEmails(c.Emails),
-        PhoneNumbers: toBizPhones(c.PhoneNumbers),
-        Addresses:    toBizAddresses(c.Addresses),
+        // Emails:       toBizEmails(c.Emails),
+        // PhoneNumbers: toBizPhones(c.PhoneNumbers),
+        // Addresses:    toBizAddresses(c.Addresses),
     }, nil
 }
 
@@ -246,9 +239,9 @@ func (r *customerRepo) GetCustomerByPhoneNumber(ctx context.Context, phone strin
         ID:           c.ID,
         Name:         c.Name,
         DateOfBirth:  c.DateOfBirth,
-        Emails:       toBizEmails(c.Emails),
-        PhoneNumbers: toBizPhones(c.PhoneNumbers),
-        Addresses:    toBizAddresses(c.Addresses),
+        // Emails:       toBizEmails(c.Emails),
+        // PhoneNumbers: toBizPhones(c.PhoneNumbers),
+        // Addresses:    toBizAddresses(c.Addresses),
     }, nil
 }
 
