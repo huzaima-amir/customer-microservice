@@ -218,28 +218,48 @@ func (uc *CustomerUsecase) ListAddress(ctx context.Context, id int64) ([]string,
     return uc.repo.ListAddresses(ctx, id) 
 }
 
-// func (uc *CustomerUsecase) CreateCustomerWithDetails(ctx context.Context, c *Customer) error {
-//     return uc.repo.Tx(ctx, func(ctx context.Context) error {
-//         if err := uc.repo.CreateCustomer(ctx, c); err != nil {
-//             return err
-//         }
+func (uc *CustomerUsecase) CreateCustomerWithDetails(
+    ctx context.Context,
+    c *Customer,
+    e *Email,
+    p *PhoneNumber,
+    a *Address,
+) error {
 
-//         for _, e := range uc.repo.Emails {
-//             e.CustomerID = c.ID
-//             if err := uc.repo.AddEmail(ctx, &e); err != nil {
-//                 return err
-//             }
-//         }
+    return uc.repo.Tx(ctx, func(ctx context.Context) error {
 
-//         for _, p := range c.PhoneNumbers {
-//             p.CustomerID = c.ID
-//             if err := uc.repo.AddPhoneNumber(ctx, &p); err != nil {
-//                 return err
-//             }
-//         }
+        //Create customer
+        if err := uc.repo.CreateCustomer(ctx, c); err != nil {
+            return err
+        }
 
-//         return nil
-//     })
-// }
+        // Add email (if provided)
+        if e != nil {
+            e.CustomerID = c.ID
+            if err := uc.repo.AddEmail(ctx, e); err != nil {
+                return err
+            }
+        }
+
+        // Add phone number (if provided)
+        if p != nil {
+            p.CustomerID = c.ID
+            if err := uc.repo.AddPhoneNumber(ctx, p); err != nil {
+                return err
+            }
+        }
+
+        //Add address (if provided)
+        if a != nil {
+            a.CustomerID = c.ID
+            if err := uc.repo.AddAddress(ctx, a); err != nil {
+                return err
+            }
+        }
+
+        return nil
+    })
+}
+
 
 
