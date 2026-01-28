@@ -1,158 +1,155 @@
 package main
 
 import (
-    "context"
-    "encoding/json"
-    "fmt"
-    "log"
-    "os"
-    "time"
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+	"time"
 
-    "google.golang.org/grpc"
-    pb "customer/api/customer/v1"
+	"google.golang.org/grpc"
+	pb "customer/api/customer/v1"
 )
-// FIX biz layer logic - issues with calling repo layer -
-//  emails, addresses and phone numbers are being treated as embedded fields instead of separate tables leading to errors in transaction
-// Remove preload - unnecessary FIX service and data layer
-// call repo imn biz layer instead of using the nested values(remove nested layers) -  DONE
-// FIXED ^^^^^^^^^^^^^^^^^^^^^^
+
 func must(err error) {
-    if err != nil {
-        log.Fatal(err)
-    }
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func printJSON(label string, v any) {
-    fmt.Println("==== " + label + " ====")
-    b, _ := json.MarshalIndent(v, "", "  ")
-    fmt.Println(string(b))
-}
-
-func writeJSON(filename string, v any) {
-    b, _ := json.MarshalIndent(v, "", "  ")
-    _ = os.WriteFile(filename, b, 0644)
+	fmt.Println("==== " + label + " ====")
+	b, _ := json.MarshalIndent(v, "", "  ")
+	fmt.Println(string(b))
 }
 
 func main() {
-    // Connect to gRPC server
-    conn, err := grpc.Dial("127.0.0.1:9000", grpc.WithInsecure())  // strikethrough - FIX
-    must(err)
-    defer conn.Close()
+	conn, err := grpc.Dial("127.0.0.1:9000", grpc.WithInsecure())
+	must(err)
+	defer conn.Close()
 
-    client := pb.NewCustomerClient(conn)
-    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-    defer cancel()
+	client := pb.NewCustomerClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
-    // Create Customer
-    createResp, err := client.CreateCustomer(ctx, &pb.CreateCustomerReq{
-        Name:         "Alice",
-        DateOfBirth:  "2000-01-01",
-    })
-    must(err)
-    printJSON("CreateCustomer", createResp)
-    writeJSON("create_customer.json", createResp)
 
-    customerID := createResp.Id
+	// Create Customers
 
-    // Add Email
-    emailResp, err := client.AddEmail(ctx, &pb.AddEmailReq{
-        CustomerId: customerID,
-        Email:      "alice@example.com",
-    })
-    must(err)
-    printJSON("AddEmail", emailResp)
-    writeJSON("add_email.json", emailResp)
+	alice, err := client.CreateCustomer(ctx, &pb.CreateCustomerReq{
+		Name:        "Alice",
+		DateOfBirth: "2000-01-01",
+	})
+	must(err)
+	printJSON("CreateCustomer Alice", alice)
 
-    //Add Phone Number
-    phoneResp, err := client.AddPhoneNumber(ctx, &pb.AddPhoneNumberReq{
-        CustomerId:  customerID,
-        PhoneNumber: "123456789",
-    })
-    must(err)
-    printJSON("AddPhoneNumber", phoneResp)
-    writeJSON("add_phone.json", phoneResp)
+	bob, err := client.CreateCustomer(ctx, &pb.CreateCustomerReq{
+		Name:        "Bob",
+		DateOfBirth: "1995-06-15",
+	})
+	must(err)
+	printJSON("CreateCustomer Bob", bob)
 
-    // add Address
-    addrResp, err := client.AddAddress(ctx, &pb.AddAddressReq{
-        CustomerId: customerID,
-        Address:    "123 Main St",
-    })
-    must(err)
-    printJSON("AddAddress", addrResp)
-    writeJSON("add_address.json", addrResp)
+	charlie, err := client.CreateCustomer(ctx, &pb.CreateCustomerReq{
+		Name:        "Charlie",
+		DateOfBirth: "1988-12-09",
+	})
+	must(err)
+	printJSON("CreateCustomer Charlie", charlie)
 
-    // get Customer (with nested data)
-    getResp, err := client.GetCustomer(ctx, &pb.GetCustomerReq{
-        Id: customerID,
-    })
-    must(err)
-    printJSON("GetCustomer", getResp)
-    writeJSON("get_customer.json", getResp)
 
-    // list Emails
-    listEmailsResp, err := client.ListEmail(ctx, &pb.ListEmailReq{
-        CustomerId: customerID,
-    })
-    must(err)
-    printJSON("ListEmails", listEmailsResp)
-    writeJSON("list_emails.json", listEmailsResp)
+	// Add Emails
 
-    //lit Phone Numbers
-    listPhonesResp, err := client.ListPhoneNumber(ctx, &pb.ListPhoneNumberReq{
-        CustomerId: customerID,
-    })
-    must(err)
-    printJSON("ListPhoneNumbers", listPhonesResp)
-    writeJSON("list_phones.json", listPhonesResp)
+	mustAddEmail := func(cid int64, email string) {
+		_, err := client.AddEmail(ctx, &pb.AddEmailReq{
+			CustomerId: cid,
+			Email:      email,
+		})
+		must(err)
+	}
 
-    //List Addresses
-    listAddrResp, err := client.ListAddress(ctx, &pb.ListAddressReq{
-        CustomerId: customerID,
-    })
-    must(err)
-    printJSON("ListAddresses", listAddrResp)
-    writeJSON("list_addresses.json", listAddrResp)
+	mustAddEmail(alice.Id, "alice@example.com")
+	mustAddEmail(alice.Id, "alice.work@example.com")
+	mustAddEmail(bob.Id, "bob@example.com")
+	mustAddEmail(charlie.Id, "charlie@example.com")
 
-    // List All Customers
-    listCustResp, err := client.ListCustomer(ctx, &pb.ListCustomerReq{})
-    must(err)
-    printJSON("ListCustomer", listCustResp)
-    writeJSON("list_customers.json", listCustResp)
+	// Add Phone Numbers
 
-    // Delete Email
-    delEmailResp, err := client.DeleteEmail(ctx, &pb.DeleteEmailReq{
-        CustomerId: customerID,
-        Email:      "alice@example.com",
-    })
-    must(err)
-    printJSON("DeleteEmail", delEmailResp)
-    writeJSON("delete_email.json", delEmailResp)
+	mustAddPhone := func(cid int64, phone string) {
+		_, err := client.AddPhoneNumber(ctx, &pb.AddPhoneNumberReq{
+			CustomerId:  cid,
+			PhoneNumber: phone,
+		})
+		must(err)
+	}
 
-    // Delete Phone Number
-    delPhoneResp, err := client.DeletePhoneNumber(ctx, &pb.DeletePhoneNumberReq{
-        CustomerId: customerID,
-        PhoneNumber: "123456789",
-    })
-    must(err)
-    printJSON("DeletePhoneNumber", delPhoneResp)
-    writeJSON("delete_phone.json", delPhoneResp)
+	mustAddPhone(alice.Id, "111111111")
+	mustAddPhone(bob.Id, "222222222")
+	mustAddPhone(charlie.Id, "333333333")
+	mustAddPhone(charlie.Id, "444444444")
 
-    ///delete Address
-    delAddrResp, err := client.DeleteAddress(ctx, &pb.DeleteAddressReq{
-        CustomerId: customerID,
-        Address:    "123 Main St",
-    })
-    must(err)
-    printJSON("DeleteAddress", delAddrResp)
-    writeJSON("delete_address.json", delAddrResp)
 
-    //Delete Customer
-    delCustResp, err := client.DeleteCustomer(ctx, &pb.DeleteCustomerReq{
-        Id: customerID,
-    })
-    must(err)
-    printJSON("DeleteCustomer", delCustResp)
-    writeJSON("delete_customer.json", delCustResp)
+	// Add Addresses
 
-    fmt.Println("==== ALL TESTS COMPLETED SUCCESSFULLY ====")
+	mustAddAddress := func(cid int64, addr string) {
+		_, err := client.AddAddress(ctx, &pb.AddAddressReq{
+			CustomerId: cid,
+			Address:    addr,
+		})
+		must(err)
+	}
+
+	mustAddAddress(alice.Id, "123 Main St")
+	mustAddAddress(bob.Id, "456 King Rd")
+	mustAddAddress(charlie.Id, "789 Queen Ave")
+
+
+	// Query: GetCustomer
+	
+	aliceGet, err := client.GetCustomer(ctx, &pb.GetCustomerReq{
+		Id: alice.Id,
+	})
+	must(err)
+	printJSON("GetCustomer Alice", aliceGet)
+
+	
+	// Query: GetCustomerByEmail
+	
+	byEmail, err := client.GetCustomerByEmail(ctx, &pb.GetCustomerByEmailReq{
+		Email: "alice.work@example.com",
+	})
+	must(err)
+	printJSON("GetCustomerByEmail alice.work@example.com", byEmail)
+
+	
+	// Query: GetCustomerByPhoneNumber
+	
+	byPhone, err := client.GetCustomerByPhoneNumber(ctx, &pb.GetCustomerByPhoneNumberReq{
+		PhoneNumber: "333333333",
+	})
+	must(err)
+	printJSON("GetCustomerByPhoneNumber 333333333", byPhone)
+
+	
+	// List per-customer details
+
+	aliceEmails, err := client.ListEmail(ctx, &pb.ListEmailReq{
+		CustomerId: alice.Id,
+	})
+	must(err)
+	printJSON("ListEmails Alice", aliceEmails)
+
+	charliePhones, err := client.ListPhoneNumber(ctx, &pb.ListPhoneNumberReq{
+		CustomerId: charlie.Id,
+	})
+	must(err)
+	printJSON("ListPhoneNumbers Charlie", charliePhones)
+
+	
+	// List all customers
+	
+	allCustomers, err := client.ListCustomer(ctx, &pb.ListCustomerReq{})
+	must(err)
+	printJSON("ListCustomer (ALL)", allCustomers)
+
+	fmt.Println("==== MULTI-CUSTOMER QUERY TEST COMPLETED SUCCESSFULLY ====")
 }
