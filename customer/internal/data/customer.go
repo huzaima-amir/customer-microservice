@@ -46,43 +46,6 @@ func NewCustomerRepo(data *Data) biz.CustomerRepo {
 }
 
 
-// helpers to map db slices to biz types
-func toBizEmails(in []Email) []biz.Email {
-    out := make([]biz.Email, len(in))
-    for i, e := range in {
-        out[i] = biz.Email{
-            ID:         e.ID,
-            CustomerID: e.CustomerID,
-            Email:      e.Email,
-        }
-    }
-    return out
-}
-
-func toBizPhones(in []PhoneNumber) []biz.PhoneNumber {
-    out := make([]biz.PhoneNumber, len(in))
-    for i, p := range in {
-        out[i] = biz.PhoneNumber{
-            ID:          p.ID,
-            CustomerID:  p.CustomerID,
-            PhoneNumber: p.PhoneNumber,
-        }
-    }
-    return out
-}
-
-func toBizAddresses(in []Address) []biz.Address {
-    out := make([]biz.Address, len(in))
-    for i, a := range in {
-        out[i] = biz.Address{
-            ID:         a.ID,
-            CustomerID: a.CustomerID,
-            Address:    a.Address,
-        }
-    }
-    return out
-}
-
 
 //  customer 
 func (r *customerRepo) CreateCustomer(ctx context.Context, c *biz.Customer) error {
