@@ -11,6 +11,9 @@ service Customer {
     rpc CreateCustomer(CreateCustomerReq) returns (CreateCustomerReply) {
     }
 
+    rpc CreateCustomerWithDetails(CreateCustomerWithDetailsReq) returns (CreateCustomerWithDetailsReply){
+    }
+
     rpc AddEmail(AddEmailReq) returns (AddEmailReply) {
     }
 
@@ -105,6 +108,23 @@ message CreateCustomerReply {
     int64 id = 1;
     string name = 2;
     string date_of_birth = 3;
+}
+
+message CreateCustomerWithDetailsReq {
+    string name = 1;
+    string date_of_birth = 2;
+    string email = 3;
+    string phone_number = 4;
+    string address = 5;
+}
+
+message CreateCustomerWithDetailsReply {
+    int64 id = 1;
+    string name = 2;
+    repeated string phone_numbers = 3;
+    repeated string emails = 4;
+    repeated string addresses = 5;
+    string date_of_birth = 6;
 }
 
 message UpdateCustomerReq {
